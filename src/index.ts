@@ -5,6 +5,11 @@ import {
   LoggerTransport,
 } from '@simplyhexagonal/logger/src';
 
+// @ts-ignore
+import {version} from '../package.json';
+// @ts-ignore
+export {version} from '../package.json';
+
 let axios: AxiosStatic;
 
 if (typeof window !== 'undefined') {
@@ -14,6 +19,8 @@ if (typeof window !== 'undefined') {
 }
 
 export default class DiscordTransport extends LoggerTransport {
+  static version = version;
+
   readonly destination: string;
   private readonly _axios?: AxiosInstance;
 
