@@ -38,7 +38,7 @@ describe('Discord transport for Simply Hexagonal Logger', () => {
       catchTransportErrors: true,
     });
 
-    const result = await logger.all('👀 Hello discord', 1, 'app', { simply: 'hexagonal' });
+    const result = await logger.all('🛑 This should never reach Discord');
 
     expect(result.length).toBe(1);
     expect((result[0] as LoggerTransportResult).destination).toBe('Logger:Fallback');
