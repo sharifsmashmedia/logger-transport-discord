@@ -1,5 +1,7 @@
 import { LoggerTransportOptions, LoggerTransportResult, LoggerTransport } from '@simplyhexagonal/logger/src';
+export { version } from '../package.json';
 export default class DiscordTransport extends LoggerTransport {
+    static version: string;
     readonly destination: string;
     private readonly _axios?;
     constructor(options: LoggerTransportOptions['options']);

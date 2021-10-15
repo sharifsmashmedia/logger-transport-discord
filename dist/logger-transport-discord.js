@@ -1732,7 +1732,8 @@ var DiscordTransport = (() => {
   // src/index.ts
   var src_exports = {};
   __export(src_exports, {
-    default: () => DiscordTransport
+    default: () => DiscordTransport,
+    version: () => version2
   });
 
   // node_modules/.pnpm/@simplyhexagonal+logger@1.2.1/node_modules/@simplyhexagonal/logger/package.json
@@ -2226,6 +2227,9 @@ var DiscordTransport = (() => {
   Logger.LogLevels = LogLevels2;
   Logger.LoggerTransport = LoggerTransport;
 
+  // package.json
+  var version2 = "1.0.0";
+
   // src/index.ts
   var axios;
   if (typeof window !== "undefined") {
@@ -2290,6 +2294,7 @@ var DiscordTransport = (() => {
       };
     }
   };
+  DiscordTransport.version = version2;
   return src_exports;
 })();
 //# sourceMappingURL=logger-transport-discord.js.map
