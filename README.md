@@ -4,7 +4,7 @@
 
 This is a transport which allows [@simplyhexagonal/logger](https://github.com/simplyhexagonal/logger) to use Discord as a communication channel.
 
-![image depicting four automated messages sent by simplyhexagonal/logger and received by discord](https://raw.githubusercontent.com/simplyhexagonal/logger-transport-discord/main/assets/logger-transport-discord-output-example.png)
+![image depicting four automated messages sent by simplyhexagonal/logger and received by discord](https://raw.githubusercontent.com/simplyhexagonal/logger-transport-discord/main/assets/logger-transport-discord-output-example-1.png)
 
 ## Open source notice
 
