@@ -40,27 +40,27 @@ export default class DiscordTransport extends LoggerTransport {
   }
 
   async debug([prefixes, ...message]: unknown[]) {
-    return await this.postToWebhook(`${prefixes} DEBUG 🐞️:\n\`\`\`${this.format(message)}\`\`\``);
+    return await this.postToWebhook(`**${prefixes} DEBUG** 🐞️:\n\`\`\`${this.format(message)}\`\`\``);
   }
 
   async info([prefixes, ...message]: unknown[]) {
-    return await this.postToWebhook(`${prefixes} INFO ✅️️:\n\`\`\`${this.format(message)}\`\`\``);
+    return await this.postToWebhook(`**${prefixes} INFO** ✅️️:\n\`\`\`${this.format(message)}\`\`\``);
   }
 
   async warn([prefixes, ...message]: unknown[]) {
-    return await this.postToWebhook(`${prefixes} WARN 🟡:\n\`\`\`${this.format(message)}\`\`\``);
+    return await this.postToWebhook(`**${prefixes} WARN** 🟡:\n\`\`\`${this.format(message)}\`\`\``);
   }
 
   async error([prefixes, ...message]: unknown[]) {
-    return await this.postToWebhook(`${prefixes} ERROR 🚨️:\n\`\`\`${this.format(message)}\`\`\``);
+    return await this.postToWebhook(`**${prefixes} ERROR** 🚨️:\n\`\`\`${this.format(message)}\`\`\``);
   }
 
   async fatal([prefixes, ...message]: unknown[]) {
-    return await this.postToWebhook(`${prefixes} FATAL 💀:\n\`\`\`${this.format(message)}\`\`\``);
+    return await this.postToWebhook(`**${prefixes} FATAL** 💀:\n\`\`\`${this.format(message)}\`\`\``);
   }
 
   async all([prefixes, ...message]: unknown[]) {
-    return await this.postToWebhook(`${prefixes} ALL 📝:\n\`\`\`${this.format(message)}\`\`\``);
+    return await this.postToWebhook(`**${prefixes} ALL** 📝:\n\`\`\`${this.format(message)}\`\`\``);
   }
 
   private async postToWebhook(message: string): Promise<LoggerTransportResult> {
