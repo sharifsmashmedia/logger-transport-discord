@@ -2228,7 +2228,7 @@ var DiscordTransport = (() => {
   Logger.LoggerTransport = LoggerTransport;
 
   // package.json
-  var version2 = "1.0.0";
+  var version2 = "1.0.1";
 
   // src/index.ts
   var axios;
@@ -2250,27 +2250,27 @@ var DiscordTransport = (() => {
       });
     }
     async debug([prefixes, ...message]) {
-      return await this.postToWebhook(`${prefixes} DEBUG \u{1F41E}\uFE0F:
+      return await this.postToWebhook(`**${prefixes} DEBUG** \u{1F41E}\uFE0F:
 \`\`\`${this.format(message)}\`\`\``);
     }
     async info([prefixes, ...message]) {
-      return await this.postToWebhook(`${prefixes} INFO \u2705\uFE0F\uFE0F:
+      return await this.postToWebhook(`**${prefixes} INFO** \u2705\uFE0F\uFE0F:
 \`\`\`${this.format(message)}\`\`\``);
     }
     async warn([prefixes, ...message]) {
-      return await this.postToWebhook(`${prefixes} WARN \u{1F7E1}:
+      return await this.postToWebhook(`**${prefixes} WARN** \u{1F7E1}:
 \`\`\`${this.format(message)}\`\`\``);
     }
     async error([prefixes, ...message]) {
-      return await this.postToWebhook(`${prefixes} ERROR \u{1F6A8}\uFE0F:
+      return await this.postToWebhook(`**${prefixes} ERROR** \u{1F6A8}\uFE0F:
 \`\`\`${this.format(message)}\`\`\``);
     }
     async fatal([prefixes, ...message]) {
-      return await this.postToWebhook(`${prefixes} FATAL \u{1F480}:
+      return await this.postToWebhook(`**${prefixes} FATAL** \u{1F480}:
 \`\`\`${this.format(message)}\`\`\``);
     }
     async all([prefixes, ...message]) {
-      return await this.postToWebhook(`${prefixes} ALL \u{1F4DD}:
+      return await this.postToWebhook(`**${prefixes} ALL** \u{1F4DD}:
 \`\`\`${this.format(message)}\`\`\``);
     }
     async postToWebhook(message) {
