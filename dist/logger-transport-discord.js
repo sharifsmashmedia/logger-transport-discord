@@ -2229,7 +2229,7 @@ var DiscordTransport = (() => {
   Logger.LoggerTransport = LoggerTransport;
 
   // package.json
-  var version2 = "1.0.1";
+  var version2 = "1.1.0";
 
   // src/index.ts
   var axios;
@@ -2261,7 +2261,6 @@ ${contentInfo}
 ${data}
 --${this.boundary}--
 `;
-      console.log("this.multipart", this.multipart);
     }
   };
   var DiscordTransport = class extends LoggerTransport {
