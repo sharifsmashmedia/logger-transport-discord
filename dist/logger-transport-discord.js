@@ -1732,6 +1732,7 @@ var DiscordTransport = (() => {
   // src/index.ts
   var src_exports = {};
   __export(src_exports, {
+    Multipart: () => Multipart,
     default: () => DiscordTransport,
     version: () => version2
   });
@@ -2237,6 +2238,32 @@ var DiscordTransport = (() => {
   } else {
     axios = __require("axios");
   }
+  var Multipart = class {
+    constructor(...data) {
+      this.boundary = "loggerTransportDiscord";
+      this.multipart = "";
+      if (data.length > 0) {
+        data.forEach(({ name, data: data2, fileName }) => {
+          this.append(name, data2, fileName);
+        });
+      }
+    }
+    append(name, data, fileName) {
+      if (!data)
+        return;
+      let contentInfo = `Content-Disposition: form-data; name="${name}"`;
+      if (fileName) {
+        contentInfo += `; filename="${fileName}"`;
+      }
+      contentInfo += "\nContent-Type: text/plain; charset=utf-8\n";
+      this.multipart += `--${this.boundary}
+${contentInfo}
+${data}
+--${this.boundary}--
+`;
+      console.log("this.multipart", this.multipart);
+    }
+  };
   var DiscordTransport = class extends LoggerTransport {
     constructor(options) {
       const r = Math.random().toString(36).substring(7);
@@ -2250,34 +2277,33 @@ var DiscordTransport = (() => {
       });
     }
     async debug([prefixes, ...message]) {
-      return await this.postToWebhook(`**${prefixes} DEBUG** \u{1F41E}\uFE0F:
-\`\`\`${this.format(message)}\`\`\``);
+      return await this.postToWebhook(`**${prefixes} DEBUG** \u{1F41E}\uFE0F:`, `${this.format(message)}`);
     }
     async info([prefixes, ...message]) {
-      return await this.postToWebhook(`**${prefixes} INFO** \u2705\uFE0F\uFE0F:
-\`\`\`${this.format(message)}\`\`\``);
+      return await this.postToWebhook(`**${prefixes} INFO** \u2705\uFE0F\uFE0F:`, `${this.format(message)}`);
     }
     async warn([prefixes, ...message]) {
-      return await this.postToWebhook(`**${prefixes} WARN** \u{1F7E1}:
-\`\`\`${this.format(message)}\`\`\``);
+      return await this.postToWebhook(`**${prefixes} WARN** \u{1F7E1}:`, `${this.format(message)}`);
     }
     async error([prefixes, ...message]) {
-      return await this.postToWebhook(`**${prefixes} ERROR** \u{1F6A8}\uFE0F:
-\`\`\`${this.format(message)}\`\`\``);
+      return await this.postToWebhook(`**${prefixes} ERROR** \u{1F6A8}\uFE0F:`, `${this.format(message)}`);
     }
     async fatal([prefixes, ...message]) {
-      return await this.postToWebhook(`**${prefixes} FATAL** \u{1F480}:
-\`\`\`${this.format(message)}\`\`\``);
+      return await this.postToWebhook(`**${prefixes} FATAL** \u{1F480}:`, `${this.format(message)}`);
     }
     async all([prefixes, ...message]) {
-      return await this.postToWebhook(`**${prefixes} ALL** \u{1F4DD}:
-\`\`\`${this.format(message)}\`\`\``);
+      return await this.postToWebhook(`**${prefixes} ALL** \u{1F4DD}:`, `${this.format(message)}`);
     }
-    async postToWebhook(message) {
-      const body = {
-        content: message
+    async postToWebhook(infoString, message) {
+      const attachMessage = Boolean(infoString.length + message.length >= 2e3);
+      const content = attachMessage ? infoString : `${infoString}
+\`\`\`${message}\`\`\``;
+      let data;
+      let config = {};
+      data = {
+        content
       };
-      const response = await this._axios.post(this.destination, body).catch((reason) => {
+      let response = await this._axios.post(this.destination, data, config).catch((reason) => {
         return {
           status: 400,
           reason
@@ -2287,6 +2313,25 @@ var DiscordTransport = (() => {
         throw new Error(`Bad Response: ${response.reason}`);
       }
       ;
+      if (attachMessage) {
+        const multi = new Multipart({ name: "file", data: message, fileName: "message.txt" });
+        data = multi.multipart;
+        config = {
+          headers: {
+            "Content-Type": `multipart/form-data; boundary=${multi.boundary}`
+          }
+        };
+        response = await this._axios.post(this.destination, data, config).catch((reason) => {
+          return {
+            status: 400,
+            reason
+          };
+        });
+        if (response.status < 200 || response.status > 399) {
+          throw new Error(`Bad Response: ${response.reason}`);
+        }
+        ;
+      }
       return {
         destination: this.destination,
         channelName: this.channelName,

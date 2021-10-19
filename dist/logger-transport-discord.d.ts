@@ -1,5 +1,15 @@
 import { LoggerTransportOptions, LoggerTransportResult, LoggerTransport } from '@simplyhexagonal/logger/src';
 export { version } from '../package.json';
+export declare class Multipart {
+    boundary: string;
+    multipart: string;
+    constructor(...data: {
+        name: string;
+        data: string;
+        fileName?: string;
+    }[]);
+    append(name: string, data: string, fileName?: string): void;
+}
 export default class DiscordTransport extends LoggerTransport {
     static version: string;
     readonly destination: string;

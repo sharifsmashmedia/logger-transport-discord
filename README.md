@@ -73,6 +73,16 @@ const logger = new Logger({
 
 For more info about configuration options go to [@simplyhexagonal/logger on Github](https://github.com/simplyhexagonal/logger).
 
+## Discord Max Character Count
+
+Currently Discord's Webhook API caps the content length at 2000 characters.
+
+If your log content with a higher character count, this transport splits the message in two, sending
+first the app identity, timestamp and log level, then sending the message contents as a plain-text
+attachment. Similar to pasting a large message on Discord and selecting to send a file instead.
+
+![image depicting an automated message containing a long error JSON that was sent as a file](https://raw.githubusercontent.com/simplyhexagonal/logger-transport-discord/main/assets/logger-transport-discord-file-output-example.png)
+
 ## Contributing
 
 Yes, thank you! This plugin is community-driven, most of its features are from different authors.
