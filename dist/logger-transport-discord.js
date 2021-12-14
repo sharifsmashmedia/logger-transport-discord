@@ -1737,10 +1737,10 @@ var DiscordTransport = (() => {
     version: () => version2
   });
 
-  // node_modules/.pnpm/@simplyhexagonal+logger@1.2.1/node_modules/@simplyhexagonal/logger/package.json
-  var version = "1.2.1";
+  // node_modules/.pnpm/@simplyhexagonal+logger@1.3.0/node_modules/@simplyhexagonal/logger/package.json
+  var version = "1.3.0";
 
-  // node_modules/.pnpm/@simplyhexagonal+logger@1.2.1/node_modules/@simplyhexagonal/logger/src/interfaces.ts
+  // node_modules/.pnpm/@simplyhexagonal+logger@1.3.0/node_modules/@simplyhexagonal/logger/src/interfaces.ts
   var LogLevelsEnum;
   (function(LogLevelsEnum2) {
     LogLevelsEnum2["DEBUG"] = "debug";
@@ -1749,6 +1749,7 @@ var DiscordTransport = (() => {
     LogLevelsEnum2["ERROR"] = "error";
     LogLevelsEnum2["FATAL"] = "fatal";
     LogLevelsEnum2["ALL"] = "all";
+    LogLevelsEnum2["RAW"] = "raw";
   })(LogLevelsEnum || (LogLevelsEnum = {}));
   var LoggerTransportNameEnum;
   (function(LoggerTransportNameEnum2) {
@@ -1760,9 +1761,14 @@ var DiscordTransport = (() => {
     LoggerTransportNameEnum2["SOCKET"] = "socket";
   })(LoggerTransportNameEnum || (LoggerTransportNameEnum = {}));
 
-  // node_modules/.pnpm/@simplyhexagonal+logger@1.2.1/node_modules/@simplyhexagonal/logger/src/transports/base.ts
+  // node_modules/.pnpm/@simplyhexagonal+logger@1.3.0/node_modules/@simplyhexagonal/logger/src/transports/base.ts
   var import_serialize_error = __toModule(require_serialize_error());
-  var import_xxhashjs = __toModule(require_lib());
+  var XXH;
+  if (typeof window !== "undefined") {
+    XXH = window.XXH;
+  } else {
+    XXH = require_lib();
+  }
   var stringify = (obj) => {
     let cache = [];
     const result = typeof obj === "string" ? obj : JSON.stringify(obj, (_key, value) => {
@@ -1797,11 +1803,14 @@ var DiscordTransport = (() => {
     async all(..._message) {
       return {};
     }
+    async raw(..._message) {
+      return {};
+    }
     format(message) {
       return message.map(stringify).join(" ").replace(/\n (\S)/g, "\n$1");
     }
     constructor({ r, destination, channelName }) {
-      this._id = import_xxhashjs.default.h32(destination, 43981).toString(16);
+      this._id = XXH.h32(destination, 43981).toString(16);
       this._r = r;
       this._isBrowser = process.env.IS_BROWSER && process.env.IS_BROWSER === "TRUE";
       this.channelName = channelName || "-";
@@ -1867,7 +1876,7 @@ var DiscordTransport = (() => {
   var names = import_ansicolor.default.names;
   var rgb = import_ansicolor.default.rgb;
 
-  // node_modules/.pnpm/@simplyhexagonal+logger@1.2.1/node_modules/@simplyhexagonal/logger/src/transports/console.ts
+  // node_modules/.pnpm/@simplyhexagonal+logger@1.3.0/node_modules/@simplyhexagonal/logger/src/transports/console.ts
   var LogLevels = __spreadValues({}, LogLevelsEnum);
   var ConsoleTransport = class extends LoggerTransport {
     constructor(options) {
@@ -1878,9 +1887,9 @@ var DiscordTransport = (() => {
         return this;
       }
     }
-    async debug([timestamp, ...message]) {
+    async debug([prefixes, ...message]) {
       console.log(...this.recolor(lightMagenta(this.format([
-        timestamp,
+        prefixes,
         LogLevels.DEBUG.toUpperCase(),
         "\u{1F41E}\uFE0F:\n\n",
         ...message,
@@ -1892,9 +1901,9 @@ var DiscordTransport = (() => {
         result: true
       };
     }
-    async info([timestamp, ...message]) {
+    async info([prefixes, ...message]) {
       console.log(...this.recolor(green(this.format([
-        timestamp,
+        prefixes,
         LogLevels.INFO.toUpperCase(),
         "\u2705\uFE0F:\n\n",
         ...message,
@@ -1906,9 +1915,9 @@ var DiscordTransport = (() => {
         result: true
       };
     }
-    async warn([timestamp, ...message]) {
+    async warn([prefixes, ...message]) {
       console.log(...this.recolor(yellow(this.format([
-        timestamp,
+        prefixes,
         LogLevels.WARN.toUpperCase(),
         "\u{1F7E1}:\n\n",
         ...message,
@@ -1920,9 +1929,9 @@ var DiscordTransport = (() => {
         result: true
       };
     }
-    async error([timestamp, ...message]) {
+    async error([prefixes, ...message]) {
       console.log(...this.recolor(red(this.format([
-        timestamp,
+        prefixes,
         LogLevels.ERROR.toUpperCase(),
         "\u{1F6A8}\uFE0F:\n\n",
         ...message,
@@ -1934,9 +1943,9 @@ var DiscordTransport = (() => {
         result: true
       };
     }
-    async fatal([timestamp, ...message]) {
+    async fatal([prefixes, ...message]) {
       console.log(...this.recolor(bgRed(this.format([
-        timestamp,
+        prefixes,
         LogLevels.FATAL.toUpperCase(),
         "\u{1F480}:\n\n",
         ...message,
@@ -1948,14 +1957,22 @@ var DiscordTransport = (() => {
         result: true
       };
     }
-    async all([timestamp, ...message]) {
+    async all([prefixes, ...message]) {
       console.log(...this.recolor(lightCyan(this.format([
-        timestamp,
+        prefixes,
         LogLevels.ALL.toUpperCase(),
         "\u{1F4DD}:\n\n",
         ...message,
         "\n"
       ]).replace(/\n/g, "\n	"))));
+      return {
+        destination: this.destination,
+        channelName: this.channelName,
+        result: true
+      };
+    }
+    async raw([prefixes, ...message]) {
+      console.log(this.format(message));
       return {
         destination: this.destination,
         channelName: this.channelName,
@@ -1970,7 +1987,7 @@ var DiscordTransport = (() => {
     }
   };
 
-  // node_modules/.pnpm/@simplyhexagonal+logger@1.2.1/node_modules/@simplyhexagonal/logger/src/transports/undefined.ts
+  // node_modules/.pnpm/@simplyhexagonal+logger@1.3.0/node_modules/@simplyhexagonal/logger/src/transports/undefined.ts
   var UndefinedTransportError = class extends Error {
     constructor(message, transportResult) {
       super(message);
@@ -2013,6 +2030,10 @@ var DiscordTransport = (() => {
       this.throwDefault();
       return {};
     }
+    async raw(message) {
+      this.throwDefault();
+      return {};
+    }
     throwDefault() {
       const errorMessage = errorString.replace("TRANSPORT_NAME", this.transportName || "undefined");
       const error = new UndefinedTransportError(errorMessage, {
@@ -2030,7 +2051,7 @@ var DiscordTransport = (() => {
     }
   };
 
-  // node_modules/.pnpm/@simplyhexagonal+logger@1.2.1/node_modules/@simplyhexagonal/logger/src/index.ts
+  // node_modules/.pnpm/@simplyhexagonal+logger@1.3.0/node_modules/@simplyhexagonal/logger/src/index.ts
   var LoggerTransportName = __spreadValues({}, LoggerTransportNameEnum);
   var LogLevels2 = __spreadValues({}, LogLevelsEnum);
   var LOG_LEVELS = {
@@ -2039,7 +2060,8 @@ var DiscordTransport = (() => {
     warn: 20,
     error: 30,
     fatal: 40,
-    all: 100
+    all: 100,
+    raw: 110
   };
   var defaultLoggerTransportOptions = {
     transport: LoggerTransportName.CONSOLE,
@@ -2054,7 +2076,8 @@ var DiscordTransport = (() => {
     warn: [defaultLoggerTransportOptions],
     error: [defaultLoggerTransportOptions],
     fatal: [defaultLoggerTransportOptions],
-    all: [defaultLoggerTransportOptions]
+    all: [defaultLoggerTransportOptions],
+    raw: [defaultLoggerTransportOptions]
   };
   var initialTransportInstances = {
     debug: [],
@@ -2062,7 +2085,8 @@ var DiscordTransport = (() => {
     warn: [],
     error: [],
     fatal: [],
-    all: []
+    all: [],
+    raw: []
   };
   var defaultTransports = {
     [LoggerTransportName.CONSOLE]: ConsoleTransport,
@@ -2167,6 +2191,9 @@ var DiscordTransport = (() => {
     all(...message) {
       return this.broadcast(message, LogLevels2.ALL);
     }
+    raw(...message) {
+      return this.broadcast(message, LogLevels2.RAW);
+    }
     channel(channelName) {
       return {
         [LogLevels2.DEBUG]: async (...message) => {
@@ -2186,6 +2213,9 @@ var DiscordTransport = (() => {
         },
         [LogLevels2.ALL]: async (...message) => {
           return this.broadcast(message, LogLevels2.ALL, channelName);
+        },
+        [LogLevels2.RAW]: async (...message) => {
+          return this.broadcast(message, LogLevels2.RAW, channelName);
         }
       };
     }
@@ -2229,7 +2259,7 @@ var DiscordTransport = (() => {
   Logger.LoggerTransport = LoggerTransport;
 
   // package.json
-  var version2 = "1.1.0";
+  var version2 = "1.2.0";
 
   // src/index.ts
   var axios;
@@ -2293,25 +2323,36 @@ ${data}
     async all([prefixes, ...message]) {
       return await this.postToWebhook(`**${prefixes} ALL** \u{1F4DD}:`, `${this.format(message)}`);
     }
+    async raw([prefixes, ...message]) {
+      return await this.postToWebhook("", this.format(message));
+    }
     async postToWebhook(infoString, message) {
       const attachMessage = Boolean(infoString.length + message.length >= 2e3);
-      const content = attachMessage ? infoString : `${infoString}
+      let content = "";
+      if (infoString.length > 0) {
+        content = attachMessage ? infoString : `${infoString}
 \`\`\`${message}\`\`\``;
+      } else if (!attachMessage) {
+        content = message;
+      }
       let data;
       let config = {};
-      data = {
-        content
-      };
-      let response = await this._axios.post(this.destination, data, config).catch((reason) => {
-        return {
-          status: 400,
-          reason
+      let response;
+      if (content.length > 0) {
+        data = {
+          content
         };
-      });
-      if (response.status < 200 || response.status > 399) {
-        throw new Error(`Bad Response: ${response.reason}`);
+        response = await this._axios.post(this.destination, data, config).catch((reason) => {
+          return {
+            status: 400,
+            reason
+          };
+        });
+        if (response.status < 200 || response.status > 399) {
+          throw new Error(`Bad Response: ${response.reason}`);
+        }
+        ;
       }
-      ;
       if (attachMessage) {
         const multi = new Multipart({ name: "file", data: message, fileName: "message.txt" });
         data = multi.multipart;

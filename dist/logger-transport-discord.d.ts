@@ -21,5 +21,6 @@ export default class DiscordTransport extends LoggerTransport {
     error([prefixes, ...message]: unknown[]): Promise<LoggerTransportResult>;
     fatal([prefixes, ...message]: unknown[]): Promise<LoggerTransportResult>;
     all([prefixes, ...message]: unknown[]): Promise<LoggerTransportResult>;
+    raw([prefixes, ...message]: unknown[]): Promise<LoggerTransportResult>;
     private postToWebhook;
 }
