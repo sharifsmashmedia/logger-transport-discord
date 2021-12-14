@@ -96,31 +96,45 @@ export default class DiscordTransport extends LoggerTransport {
     return await this.postToWebhook(`**${prefixes} ALL** 📝:`, `${this.format(message)}`);
   }
 
+  async raw([prefixes, ...message]: unknown[]) {
+    return await this.postToWebhook('', this.format(message));
+  }
+
   private async postToWebhook(infoString: string, message: string): Promise<LoggerTransportResult> {
     const attachMessage = Boolean((infoString.length + message.length) >= 2000);
 
-    const content = (attachMessage) ? infoString : `${infoString}\n\`\`\`${message}\`\`\``;
+    let content = '';
+    
+    if (infoString.length > 0) {
+      content = (attachMessage) ? infoString : `${infoString}\n\`\`\`${message}\`\`\``;
+    } else if (!attachMessage) {
+      content = message;
+    }
 
     let data;
     let config: AxiosRequestConfig = {};
-    data = {
-      content,
-    };
+    let response;
 
-    let response = await (this._axios as AxiosInstance).post<undefined>(
-      this.destination,
-      data,
-      config,
-    ).catch((reason) => {
-      return {
-        status: 400,
-        reason,
+    if (content.length > 0) {
+      data = {
+        content,
       };
-    });
 
-    if (response.status < 200 || response.status > 399) {
-      throw new Error(`Bad Response: ${(response as any).reason}`);
-    };
+      response = await (this._axios as AxiosInstance).post<undefined>(
+        this.destination,
+        data,
+        config,
+      ).catch((reason) => {
+        return {
+          status: 400,
+          reason,
+        };
+      });
+
+      if (response.status < 200 || response.status > 399) {
+        throw new Error(`Bad Response: ${(response as any).reason}`);
+      };
+    }
 
     if (attachMessage) {
       const multi = new Multipart(

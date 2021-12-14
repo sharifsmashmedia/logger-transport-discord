@@ -55,6 +55,7 @@ const logger = new Logger({
     error: [discordError],
     fatal: [discordError],
     all: [discordDefault],
+    raw: [discordDefault],
   },
   singleton: false,
   transports: {
