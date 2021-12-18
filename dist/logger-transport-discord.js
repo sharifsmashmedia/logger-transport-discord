@@ -2536,7 +2536,7 @@ var DiscordTransport = (() => {
   Logger.LoggerTransport = LoggerTransport;
 
   // package.json
-  var version2 = "1.2.0";
+  var version2 = "2.0.0";
 
   // src/index.ts
   var axios;
@@ -2587,7 +2587,7 @@ ${data}
       };
       const fnQ = new import_function_queue.FunctionQueue(qFn, { waitTimeBetweenRuns: 200, maxRetries: 0 });
       this._fnQ = fnQ;
-      this._processQ = (0, import_lodash.default)(async () => await fnQ.processQueue(), 1e3);
+      this._processQ = (0, import_lodash.default)(async () => await fnQ.processQueue(), 200);
     }
     async debug([prefixes, ...message]) {
       var _a, _b;
