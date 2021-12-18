@@ -50,6 +50,281 @@ var DiscordTransport = (() => {
     return __reExport(__markAsModule(__defProp(module != null ? __create(__getProtoOf(module)) : {}, "default", module && module.__esModule && "default" in module ? { get: () => module.default, enumerable: true } : { value: module, enumerable: true })), module);
   };
 
+  // node_modules/.pnpm/@simplyhexagonal+function-queue@1.1.0/node_modules/@simplyhexagonal/function-queue/dist/function-queue.js
+  var require_function_queue = __commonJS({
+    "node_modules/.pnpm/@simplyhexagonal+function-queue@1.1.0/node_modules/@simplyhexagonal/function-queue/dist/function-queue.js"(exports, module) {
+      var FunctionQueue2 = (() => {
+        var __defProp2 = Object.defineProperty;
+        var __getOwnPropSymbols2 = Object.getOwnPropertySymbols;
+        var __hasOwnProp2 = Object.prototype.hasOwnProperty;
+        var __propIsEnum2 = Object.prototype.propertyIsEnumerable;
+        var __defNormalProp2 = (obj, key, value) => key in obj ? __defProp2(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+        var __spreadValues2 = (a, b) => {
+          for (var prop in b || (b = {}))
+            if (__hasOwnProp2.call(b, prop))
+              __defNormalProp2(a, prop, b[prop]);
+          if (__getOwnPropSymbols2)
+            for (var prop of __getOwnPropSymbols2(b)) {
+              if (__propIsEnum2.call(b, prop))
+                __defNormalProp2(a, prop, b[prop]);
+            }
+          return a;
+        };
+        var __markAsModule2 = (target) => __defProp2(target, "__esModule", { value: true });
+        var __export2 = (target, all) => {
+          __markAsModule2(target);
+          for (var name in all)
+            __defProp2(target, name, { get: all[name], enumerable: true });
+        };
+        var src_exports2 = {};
+        __export2(src_exports2, {
+          FunctionQueue: () => FunctionQueue3,
+          FunctionSyncQueue: () => FunctionSyncQueue
+        });
+        var version3 = "1.1.0";
+        var defaultOptions = {
+          waitTimeBetweenRuns: 100,
+          maxRetries: 1
+        };
+        var sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+        var syncSleep = (ms) => {
+          const end = Date.now() + ms;
+          while (Date.now() < end)
+            continue;
+        };
+        var FunctionQueue3 = class {
+          constructor(fn, options) {
+            this._queue = [];
+            this._tryFn = async (payload, retries = 0) => {
+              try {
+                await sleep(this._options.waitTimeBetweenRuns);
+                const result = await this._fn(payload);
+                return result;
+              } catch (error) {
+                if (retries < this._options.maxRetries) {
+                  return await this._tryFn(payload, retries + 1);
+                }
+                throw error;
+              }
+            };
+            this._fn = fn;
+            this._options = __spreadValues2(__spreadValues2({}, defaultOptions), options || {});
+          }
+          queuePayload(payload) {
+            this._queue.push(payload);
+          }
+          async processQueue() {
+            const results = [];
+            let startTime;
+            let endTime;
+            let payload;
+            while (payload = this._queue.shift()) {
+              startTime = Date.now();
+              try {
+                const result = await this._tryFn(payload);
+                endTime = Date.now();
+                results.push({
+                  duration: endTime - startTime,
+                  result
+                });
+              } catch (error) {
+                endTime = Date.now();
+                results.push({
+                  duration: endTime - startTime,
+                  error
+                });
+              }
+            }
+            return results;
+          }
+        };
+        FunctionQueue3.version = version3;
+        var FunctionSyncQueue = class {
+          constructor(fn, options) {
+            this._queue = [];
+            this._tryFn = (payload, retries = 0) => {
+              try {
+                syncSleep(this._options.waitTimeBetweenRuns);
+                const result = this._fn(payload);
+                return result;
+              } catch (error) {
+                if (retries < this._options.maxRetries) {
+                  return this._tryFn(payload, retries + 1);
+                }
+                return error;
+              }
+            };
+            this._fn = fn;
+            this._options = __spreadValues2(__spreadValues2({}, defaultOptions), options || {});
+          }
+          queuePayload(payload) {
+            this._queue.push(payload);
+          }
+          processQueue() {
+            const results = [];
+            let startTime;
+            let endTime;
+            let payload;
+            while (payload = this._queue.shift()) {
+              startTime = Date.now();
+              try {
+                const result = this._tryFn(payload);
+                endTime = Date.now();
+                results.push({
+                  duration: endTime - startTime,
+                  result
+                });
+              } catch (error) {
+                endTime = Date.now();
+                results.push({
+                  duration: endTime - startTime,
+                  error
+                });
+              }
+            }
+            return results;
+          }
+        };
+        FunctionSyncQueue.version = version3;
+        return src_exports2;
+      })();
+      typeof module != "undefined" && (module.exports = FunctionQueue2), typeof window != "undefined" && (FunctionQueue2 = FunctionQueue2);
+    }
+  });
+
+  // node_modules/.pnpm/lodash.debounce@4.0.8/node_modules/lodash.debounce/index.js
+  var require_lodash = __commonJS({
+    "node_modules/.pnpm/lodash.debounce@4.0.8/node_modules/lodash.debounce/index.js"(exports, module) {
+      var FUNC_ERROR_TEXT = "Expected a function";
+      var NAN = 0 / 0;
+      var symbolTag = "[object Symbol]";
+      var reTrim = /^\s+|\s+$/g;
+      var reIsBadHex = /^[-+]0x[0-9a-f]+$/i;
+      var reIsBinary = /^0b[01]+$/i;
+      var reIsOctal = /^0o[0-7]+$/i;
+      var freeParseInt = parseInt;
+      var freeGlobal = typeof global == "object" && global && global.Object === Object && global;
+      var freeSelf = typeof self == "object" && self && self.Object === Object && self;
+      var root = freeGlobal || freeSelf || Function("return this")();
+      var objectProto = Object.prototype;
+      var objectToString = objectProto.toString;
+      var nativeMax = Math.max;
+      var nativeMin = Math.min;
+      var now = function() {
+        return root.Date.now();
+      };
+      function debounce2(func, wait, options) {
+        var lastArgs, lastThis, maxWait, result, timerId, lastCallTime, lastInvokeTime = 0, leading = false, maxing = false, trailing = true;
+        if (typeof func != "function") {
+          throw new TypeError(FUNC_ERROR_TEXT);
+        }
+        wait = toNumber(wait) || 0;
+        if (isObject(options)) {
+          leading = !!options.leading;
+          maxing = "maxWait" in options;
+          maxWait = maxing ? nativeMax(toNumber(options.maxWait) || 0, wait) : maxWait;
+          trailing = "trailing" in options ? !!options.trailing : trailing;
+        }
+        function invokeFunc(time) {
+          var args = lastArgs, thisArg = lastThis;
+          lastArgs = lastThis = void 0;
+          lastInvokeTime = time;
+          result = func.apply(thisArg, args);
+          return result;
+        }
+        function leadingEdge(time) {
+          lastInvokeTime = time;
+          timerId = setTimeout(timerExpired, wait);
+          return leading ? invokeFunc(time) : result;
+        }
+        function remainingWait(time) {
+          var timeSinceLastCall = time - lastCallTime, timeSinceLastInvoke = time - lastInvokeTime, result2 = wait - timeSinceLastCall;
+          return maxing ? nativeMin(result2, maxWait - timeSinceLastInvoke) : result2;
+        }
+        function shouldInvoke(time) {
+          var timeSinceLastCall = time - lastCallTime, timeSinceLastInvoke = time - lastInvokeTime;
+          return lastCallTime === void 0 || timeSinceLastCall >= wait || timeSinceLastCall < 0 || maxing && timeSinceLastInvoke >= maxWait;
+        }
+        function timerExpired() {
+          var time = now();
+          if (shouldInvoke(time)) {
+            return trailingEdge(time);
+          }
+          timerId = setTimeout(timerExpired, remainingWait(time));
+        }
+        function trailingEdge(time) {
+          timerId = void 0;
+          if (trailing && lastArgs) {
+            return invokeFunc(time);
+          }
+          lastArgs = lastThis = void 0;
+          return result;
+        }
+        function cancel() {
+          if (timerId !== void 0) {
+            clearTimeout(timerId);
+          }
+          lastInvokeTime = 0;
+          lastArgs = lastCallTime = lastThis = timerId = void 0;
+        }
+        function flush() {
+          return timerId === void 0 ? result : trailingEdge(now());
+        }
+        function debounced() {
+          var time = now(), isInvoking = shouldInvoke(time);
+          lastArgs = arguments;
+          lastThis = this;
+          lastCallTime = time;
+          if (isInvoking) {
+            if (timerId === void 0) {
+              return leadingEdge(lastCallTime);
+            }
+            if (maxing) {
+              timerId = setTimeout(timerExpired, wait);
+              return invokeFunc(lastCallTime);
+            }
+          }
+          if (timerId === void 0) {
+            timerId = setTimeout(timerExpired, wait);
+          }
+          return result;
+        }
+        debounced.cancel = cancel;
+        debounced.flush = flush;
+        return debounced;
+      }
+      function isObject(value) {
+        var type = typeof value;
+        return !!value && (type == "object" || type == "function");
+      }
+      function isObjectLike(value) {
+        return !!value && typeof value == "object";
+      }
+      function isSymbol(value) {
+        return typeof value == "symbol" || isObjectLike(value) && objectToString.call(value) == symbolTag;
+      }
+      function toNumber(value) {
+        if (typeof value == "number") {
+          return value;
+        }
+        if (isSymbol(value)) {
+          return NAN;
+        }
+        if (isObject(value)) {
+          var other = typeof value.valueOf == "function" ? value.valueOf() : value;
+          value = isObject(other) ? other + "" : other;
+        }
+        if (typeof value != "string") {
+          return value === 0 ? value : +value;
+        }
+        value = value.replace(reTrim, "");
+        var isBinary = reIsBinary.test(value);
+        return isBinary || reIsOctal.test(value) ? freeParseInt(value.slice(2), isBinary ? 2 : 8) : reIsBadHex.test(value) ? NAN : +value;
+      }
+      module.exports = debounce2;
+    }
+  });
+
   // node_modules/.pnpm/serialize-error@8.1.0/node_modules/serialize-error/index.js
   var require_serialize_error = __commonJS({
     "node_modules/.pnpm/serialize-error@8.1.0/node_modules/serialize-error/index.js"(exports, module) {
@@ -476,15 +751,15 @@ var DiscordTransport = (() => {
           var radixUint = radixCache[radix] || new UINT64(radix);
           if (!this.gt(radixUint))
             return this.toNumber().toString(radix);
-          var self = this.clone();
+          var self2 = this.clone();
           var res = new Array(64);
           for (var i = 63; i >= 0; i--) {
-            self.div(radixUint);
-            res[i] = self.remainder.toNumber().toString(radix);
-            if (!self.gt(radixUint))
+            self2.div(radixUint);
+            res[i] = self2.remainder.toNumber().toString(radix);
+            if (!self2.gt(radixUint))
               break;
           }
-          res[i - 1] = self.toNumber().toString(radix);
+          res[i - 1] = self2.toNumber().toString(radix);
           return res.join("");
         };
         UINT64.prototype.add = function(other) {
@@ -1736,6 +2011,8 @@ var DiscordTransport = (() => {
     default: () => DiscordTransport,
     version: () => version2
   });
+  var import_function_queue = __toModule(require_function_queue());
+  var import_lodash = __toModule(require_lodash());
 
   // node_modules/.pnpm/@simplyhexagonal+logger@1.3.0/node_modules/@simplyhexagonal/logger/package.json
   var version = "1.3.0";
@@ -2304,29 +2581,134 @@ ${data}
       this._axios = axios.create({
         url: this.destination
       });
+      const qFn = async (payload) => {
+        this.postToWebhook(payload);
+        return;
+      };
+      const fnQ = new import_function_queue.FunctionQueue(qFn, { waitTimeBetweenRuns: 200, maxRetries: 0 });
+      this._fnQ = fnQ;
+      this._processQ = (0, import_lodash.default)(async () => await fnQ.processQueue(), 1e3);
     }
     async debug([prefixes, ...message]) {
-      return await this.postToWebhook(`**${prefixes} DEBUG** \u{1F41E}\uFE0F:`, `${this.format(message)}`);
+      var _a, _b;
+      (_a = this._fnQ) == null ? void 0 : _a.queuePayload({
+        infoString: `**${prefixes} DEBUG** \u{1F41E}\uFE0F:`,
+        message: `${this.format(message)}`
+      });
+      try {
+        (_b = this._processQ) == null ? void 0 : _b.call(this);
+      } catch (error) {
+        console.log(`${prefixes} WARN \u{1F7E1}: Logger Discord Transport -> Unable to process queue.`);
+      }
+      return {
+        destination: this.destination,
+        channelName: this.channelName,
+        result: true
+      };
     }
     async info([prefixes, ...message]) {
-      return await this.postToWebhook(`**${prefixes} INFO** \u2705\uFE0F\uFE0F:`, `${this.format(message)}`);
+      var _a, _b;
+      (_a = this._fnQ) == null ? void 0 : _a.queuePayload({
+        infoString: `**${prefixes} INFO** \u2705\uFE0F\uFE0F:`,
+        message: `${this.format(message)}`
+      });
+      try {
+        (_b = this._processQ) == null ? void 0 : _b.call(this);
+      } catch (error) {
+        console.log(`${prefixes} WARN \u{1F7E1}: Logger Discord Transport -> Unable to process queue.`);
+      }
+      return {
+        destination: this.destination,
+        channelName: this.channelName,
+        result: true
+      };
     }
     async warn([prefixes, ...message]) {
-      return await this.postToWebhook(`**${prefixes} WARN** \u{1F7E1}:`, `${this.format(message)}`);
+      var _a, _b;
+      (_a = this._fnQ) == null ? void 0 : _a.queuePayload({
+        infoString: `**${prefixes} WARN** \u{1F7E1}:`,
+        message: `${this.format(message)}`
+      });
+      try {
+        (_b = this._processQ) == null ? void 0 : _b.call(this);
+      } catch (error) {
+        console.log(`${prefixes} WARN \u{1F7E1}: Logger Discord Transport -> Unable to process queue.`);
+      }
+      return {
+        destination: this.destination,
+        channelName: this.channelName,
+        result: true
+      };
     }
     async error([prefixes, ...message]) {
-      return await this.postToWebhook(`**${prefixes} ERROR** \u{1F6A8}\uFE0F:`, `${this.format(message)}`);
+      var _a, _b;
+      (_a = this._fnQ) == null ? void 0 : _a.queuePayload({
+        infoString: `**${prefixes} ERROR** \u{1F6A8}\uFE0F:`,
+        message: `${this.format(message)}`
+      });
+      try {
+        (_b = this._processQ) == null ? void 0 : _b.call(this);
+      } catch (error) {
+        console.log(`${prefixes} WARN \u{1F7E1}: Logger Discord Transport -> Unable to process queue.`);
+      }
+      return {
+        destination: this.destination,
+        channelName: this.channelName,
+        result: true
+      };
     }
     async fatal([prefixes, ...message]) {
-      return await this.postToWebhook(`**${prefixes} FATAL** \u{1F480}:`, `${this.format(message)}`);
+      var _a, _b;
+      (_a = this._fnQ) == null ? void 0 : _a.queuePayload({
+        infoString: `**${prefixes} FATAL** \u{1F480}:`,
+        message: `${this.format(message)}`
+      });
+      try {
+        (_b = this._processQ) == null ? void 0 : _b.call(this);
+      } catch (error) {
+        console.log(`${prefixes} WARN \u{1F7E1}: Logger Discord Transport -> Unable to process queue.`);
+      }
+      return {
+        destination: this.destination,
+        channelName: this.channelName,
+        result: true
+      };
     }
     async all([prefixes, ...message]) {
-      return await this.postToWebhook(`**${prefixes} ALL** \u{1F4DD}:`, `${this.format(message)}`);
+      var _a, _b;
+      (_a = this._fnQ) == null ? void 0 : _a.queuePayload({
+        infoString: `**${prefixes} ALL** \u{1F4DD}:`,
+        message: `${this.format(message)}`
+      });
+      try {
+        (_b = this._processQ) == null ? void 0 : _b.call(this);
+      } catch (error) {
+        console.log(`${prefixes} WARN \u{1F7E1}: Logger Discord Transport -> Unable to process queue.`);
+      }
+      return {
+        destination: this.destination,
+        channelName: this.channelName,
+        result: true
+      };
     }
     async raw([prefixes, ...message]) {
-      return await this.postToWebhook("", this.format(message));
+      var _a, _b;
+      (_a = this._fnQ) == null ? void 0 : _a.queuePayload({
+        infoString: "",
+        message: this.format(message)
+      });
+      try {
+        (_b = this._processQ) == null ? void 0 : _b.call(this);
+      } catch (error) {
+        console.log(`${prefixes} WARN \u{1F7E1}: Logger Discord Transport -> Unable to process queue.`);
+      }
+      return {
+        destination: this.destination,
+        channelName: this.channelName,
+        result: true
+      };
     }
-    async postToWebhook(infoString, message) {
+    async postToWebhook({ infoString, message }) {
       const attachMessage = Boolean(infoString.length + message.length >= 2e3);
       let content = "";
       if (infoString.length > 0) {
@@ -2349,7 +2731,7 @@ ${data}
           };
         });
         if (response.status < 200 || response.status > 399) {
-          throw new Error(`Bad Response: ${response.reason}`);
+          console.log(`${infoString} WARN \u{1F7E1}: Logger Discord Transport -> Bad Response -> ${response.reason}`);
         }
         ;
       }
@@ -2368,7 +2750,7 @@ ${data}
           };
         });
         if (response.status < 200 || response.status > 399) {
-          throw new Error(`Bad Response: ${response.reason}`);
+          console.log(`${infoString} WARN \u{1F7E1}: Logger Discord Transport -> Bad Response -> ${response.reason}`);
         }
         ;
       }

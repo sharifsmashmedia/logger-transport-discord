@@ -172,6 +172,6 @@ describe('Discord transport for Simply Hexagonal Logger', () => {
   });
 
   afterAll(async () => {
-    await sleep(3000);
+    await sleep(1000);
   });
 });

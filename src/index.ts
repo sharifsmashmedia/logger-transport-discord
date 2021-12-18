@@ -91,7 +91,7 @@ export default class DiscordTransport extends LoggerTransport {
 
     const fnQ = new FunctionQueue(qFn, {waitTimeBetweenRuns: 200, maxRetries: 0});
     this._fnQ = fnQ;
-    this._processQ = debounce(async () => await fnQ.processQueue(), 1000) as () => Promise<FunctionQueueResult<void>[]>;
+    this._processQ = debounce(async () => await fnQ.processQueue(), 200) as () => Promise<FunctionQueueResult<void>[]>;
   }
 
   async debug([prefixes, ...message]: unknown[]) {
