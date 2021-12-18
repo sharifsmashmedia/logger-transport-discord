@@ -1,8 +1,10 @@
 lockfileVersion: 5.3
 
 specifiers:
+  '@simplyhexagonal/function-queue': ^1.1.0
   '@simplyhexagonal/logger': ^1.3.0
   '@types/jest': ^27.0.2
+  '@types/lodash.debounce': ^4.0.6
   '@types/node': ^16.11.0
   auto-changelog: ^2.3.0
   axios: ^0.23.0
@@ -10,6 +12,7 @@ specifiers:
   esbuild: ^0.13.6
   husky: ^7.0.2
   jest: ^27.2.5
+  lodash.debounce: ^4.0.8
   refup: ^1.1.0
   release-it: ^14.11.6
   scripty: ^2.0.0
@@ -23,14 +26,17 @@ dependencies:
   axios: 0.23.0
 
 devDependencies:
+  '@simplyhexagonal/function-queue': 1.1.0
   '@simplyhexagonal/logger': 1.3.0
   '@types/jest': 27.0.2
+  '@types/lodash.debounce': 4.0.6
   '@types/node': 16.11.0
   auto-changelog: 2.3.0
   dotenv: 10.0.0
   esbuild: 0.13.6
   husky: 7.0.2
   jest: 27.2.5_ts-node@10.3.0
+  lodash.debounce: 4.0.8
   refup: 1.1.0
   release-it: 14.11.6
   scripty: 2.0.0
@@ -726,6 +732,10 @@ packages:
       '@octokit/openapi-types': 11.2.0
     dev: true
 
+  /@simplyhexagonal/function-queue/1.1.0:
+    resolution: {integrity: sha512-t8kxbfSktsezYB0kfWAhBvWGH57qFh8rsgBRJtm46pzDT2wnPr5UxG+It0ArUwb+3bN0JFSGCVQgO4YBdgx5wQ==}
+    dev: true
+
   /@simplyhexagonal/logger/1.3.0:
     resolution: {integrity: sha512-g37OSTLV2qqrI2l/Qv9QTXnPDTtHp7XKhzJv1qWoQ+woGhRDU1x3K3zQzEfOoZVzV2IcgSMumiTh3HYAmXreGg==}
     dependencies:
@@ -867,6 +877,16 @@ packages:
     resolution: {integrity: sha512-FXCJgyyN3ivVgRoml4h94G/p3kY+u/B86La+QptcqJaWtBWtmc6TtkNfS40n9bIvyLteHh7zXOtgbobORKPbDg==}
     dependencies:
       '@types/node': 16.11.0
+    dev: true
+
+  /@types/lodash.debounce/4.0.6:
+    resolution: {integrity: sha512-4WTmnnhCfDvvuLMaF3KV4Qfki93KebocUF45msxhYyjMttZDQYzHkO639ohhk8+oco2cluAFL3t5+Jn4mleylQ==}
+    dependencies:
+      '@types/lodash': 4.14.178
+    dev: true
+
+  /@types/lodash/4.14.178:
+    resolution: {integrity: sha512-0d5Wd09ItQWH1qFbEyQ7oTQ3GZrMfth5JkbN3EvTKLXcHLRDSXeLnlvlOn0wvxVIwK5o2M8JzP/OWz7T3NRsbw==}
     dev: true
 
   /@types/node/16.11.0:
@@ -3145,6 +3165,10 @@ packages:
     engines: {node: '>=8'}
     dependencies:
       p-locate: 4.1.0
+    dev: true
+
+  /lodash.debounce/4.0.8:
+    resolution: {integrity: sha1-gteb/zCmfEAF/9XiUVMArZyk168=}
     dev: true
 
   /lodash.memoize/4.1.2:

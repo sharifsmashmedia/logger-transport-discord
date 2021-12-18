@@ -1,5 +1,11 @@
 import { AxiosStatic, AxiosInstance, AxiosRequestConfig } from 'axios';
 import {
+  FunctionQueue,
+  QueueableFunction,
+  FunctionQueueResult,
+} from '@simplyhexagonal/function-queue';
+import debounce from 'lodash.debounce';
+import {
   LoggerTransportOptions,
   LoggerTransportResult,
   LoggerTransport,
@@ -51,11 +57,18 @@ export class Multipart {
   }
 }
 
+interface QFnPayload {
+  infoString: string;
+  message: string;
+}
+
 export default class DiscordTransport extends LoggerTransport {
   static version = version;
 
   readonly destination: string;
   private readonly _axios?: AxiosInstance;
+  private readonly _fnQ?: FunctionQueue;
+  private readonly _processQ?: () => Promise<FunctionQueueResult<void>[]>;
 
   constructor(options: LoggerTransportOptions['options']) {
     const r = Math.random().toString(36).substring(7);
@@ -70,37 +83,165 @@ export default class DiscordTransport extends LoggerTransport {
     this._axios = axios.create({
       url: this.destination,
     });
+
+    const qFn: QueueableFunction<QFnPayload, void> = async (payload) => {
+      this.postToWebhook(payload);
+      return;
+    };
+
+    const fnQ = new FunctionQueue(qFn, {waitTimeBetweenRuns: 200, maxRetries: 0});
+    this._fnQ = fnQ;
+    this._processQ = debounce(async () => await fnQ.processQueue(), 1000) as () => Promise<FunctionQueueResult<void>[]>;
   }
 
   async debug([prefixes, ...message]: unknown[]) {
-    return await this.postToWebhook(`**${prefixes} DEBUG** 🐞️:`, `${this.format(message)}`);
+    this._fnQ?.queuePayload(
+      {
+        infoString: `**${prefixes} DEBUG** 🐞️:`,
+        message: `${this.format(message)}`
+      }
+    );
+
+    try {
+      this._processQ?.();
+    } catch (error) {
+      console.log(`${prefixes} WARN 🟡: Logger Discord Transport -> Unable to process queue.`);
+    }
+
+    return {
+      destination: this.destination,
+      channelName: this.channelName,
+      result: true,
+    };
   }
 
   async info([prefixes, ...message]: unknown[]) {
-    return await this.postToWebhook(`**${prefixes} INFO** ✅️️:`, `${this.format(message)}`);
+    this._fnQ?.queuePayload(
+      {
+        infoString: `**${prefixes} INFO** ✅️️:`,
+        message: `${this.format(message)}`
+      }
+    );
+
+    try {
+      this._processQ?.();
+    } catch (error) {
+      console.log(`${prefixes} WARN 🟡: Logger Discord Transport -> Unable to process queue.`);
+    }
+
+    return {
+      destination: this.destination,
+      channelName: this.channelName,
+      result: true,
+    };
   }
 
   async warn([prefixes, ...message]: unknown[]) {
-    return await this.postToWebhook(`**${prefixes} WARN** 🟡:`, `${this.format(message)}`);
+    this._fnQ?.queuePayload(
+      {
+        infoString: `**${prefixes} WARN** 🟡:`,
+        message: `${this.format(message)}`
+      }
+    );
+
+    try {
+      this._processQ?.();
+    } catch (error) {
+      console.log(`${prefixes} WARN 🟡: Logger Discord Transport -> Unable to process queue.`);
+    }
+
+    return {
+      destination: this.destination,
+      channelName: this.channelName,
+      result: true,
+    };
   }
 
   async error([prefixes, ...message]: unknown[]) {
-    return await this.postToWebhook(`**${prefixes} ERROR** 🚨️:`, `${this.format(message)}`);
+    this._fnQ?.queuePayload(
+      {
+        infoString: `**${prefixes} ERROR** 🚨️:`,
+        message: `${this.format(message)}`
+      }
+    );
+
+    try {
+      this._processQ?.();
+    } catch (error) {
+      console.log(`${prefixes} WARN 🟡: Logger Discord Transport -> Unable to process queue.`);
+    }
+
+    return {
+      destination: this.destination,
+      channelName: this.channelName,
+      result: true,
+    };
   }
 
   async fatal([prefixes, ...message]: unknown[]) {
-    return await this.postToWebhook(`**${prefixes} FATAL** 💀:`, `${this.format(message)}`);
+    this._fnQ?.queuePayload(
+      {
+        infoString: `**${prefixes} FATAL** 💀:`,
+        message: `${this.format(message)}`
+      }
+    );
+
+    try {
+      this._processQ?.();
+    } catch (error) {
+      console.log(`${prefixes} WARN 🟡: Logger Discord Transport -> Unable to process queue.`);
+    }
+
+    return {
+      destination: this.destination,
+      channelName: this.channelName,
+      result: true,
+    };
   }
 
   async all([prefixes, ...message]: unknown[]) {
-    return await this.postToWebhook(`**${prefixes} ALL** 📝:`, `${this.format(message)}`);
+    this._fnQ?.queuePayload(
+      {
+        infoString: `**${prefixes} ALL** 📝:`,
+        message: `${this.format(message)}`
+      }
+    );
+
+    try {
+      this._processQ?.();
+    } catch (error) {
+      console.log(`${prefixes} WARN 🟡: Logger Discord Transport -> Unable to process queue.`);
+    }
+
+    return {
+      destination: this.destination,
+      channelName: this.channelName,
+      result: true,
+    };
   }
 
   async raw([prefixes, ...message]: unknown[]) {
-    return await this.postToWebhook('', this.format(message));
+    this._fnQ?.queuePayload(
+      {
+        infoString: '',
+        message: this.format(message)
+      }
+    );
+
+    try {
+      this._processQ?.();
+    } catch (error) {
+      console.log(`${prefixes} WARN 🟡: Logger Discord Transport -> Unable to process queue.`);
+    }
+
+    return {
+      destination: this.destination,
+      channelName: this.channelName,
+      result: true,
+    };
   }
 
-  private async postToWebhook(infoString: string, message: string): Promise<LoggerTransportResult> {
+  private async postToWebhook({infoString, message}: QFnPayload): Promise<LoggerTransportResult> {
     const attachMessage = Boolean((infoString.length + message.length) >= 2000);
 
     let content = '';
@@ -132,7 +273,7 @@ export default class DiscordTransport extends LoggerTransport {
       });
 
       if (response.status < 200 || response.status > 399) {
-        throw new Error(`Bad Response: ${(response as any).reason}`);
+        console.log(`${infoString} WARN 🟡: Logger Discord Transport -> Bad Response -> ${(response as any).reason}`);
       };
     }
 
@@ -161,7 +302,7 @@ export default class DiscordTransport extends LoggerTransport {
       });
 
       if (response.status < 200 || response.status > 399) {
-        throw new Error(`Bad Response: ${(response as any).reason}`);
+        console.log(`${infoString} WARN 🟡: Logger Discord Transport -> Bad Response -> ${(response as any).reason}`);
       };
     }
 
