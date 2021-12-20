@@ -2536,7 +2536,7 @@ var DiscordTransport = (() => {
   Logger.LoggerTransport = LoggerTransport;
 
   // package.json
-  var version2 = "2.0.0";
+  var version2 = "2.0.1";
 
   // src/index.ts
   var axios;
@@ -2585,9 +2585,9 @@ ${data}
         this.postToWebhook(payload);
         return;
       };
-      const fnQ = new import_function_queue.FunctionQueue(qFn, { waitTimeBetweenRuns: 200, maxRetries: 0 });
+      const fnQ = new import_function_queue.FunctionQueue(qFn, { waitTimeBetweenRuns: 400, maxRetries: 0 });
       this._fnQ = fnQ;
-      this._processQ = (0, import_lodash.default)(async () => await fnQ.processQueue(), 200);
+      this._processQ = (0, import_lodash.default)(async () => await fnQ.processQueue(), 400);
     }
     async debug([prefixes, ...message]) {
       var _a, _b;
