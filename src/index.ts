@@ -1,10 +1,7 @@
 import { AxiosStatic, AxiosInstance, AxiosRequestConfig } from 'axios';
-import {
-  FunctionQueue,
+import FunctionQueue, {
   QueueableFunction,
-  FunctionQueueResult,
 } from '@simplyhexagonal/function-queue';
-import debounce from 'lodash.debounce';
 import {
   LoggerTransportOptions,
   LoggerTransportResult,
@@ -23,6 +20,8 @@ if (typeof window !== 'undefined') {
 } else {
   axios = require('axios');
 }
+
+const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
 export class Multipart {
   boundary = 'loggerTransportDiscord';
@@ -62,15 +61,17 @@ interface QFnPayload {
   message: string;
 }
 
+const DEFAULT_RATE_LIMIT = 400;
+
 export default class DiscordTransport extends LoggerTransport {
   static version = version;
 
   readonly destination: string;
   private readonly _axios?: AxiosInstance;
-  private readonly _fnQ?: FunctionQueue;
-  private readonly _processQ?: () => Promise<FunctionQueueResult<void>[]>;
+  private readonly _fnQ?: FunctionQueue<QFnPayload, LoggerTransportResult>;
+  private readonly _rateLimit;
 
-  constructor(options: LoggerTransportOptions['options']) {
+  constructor(options: LoggerTransportOptions['options'] & {rateLimit?: number}) {
     const r = Math.random().toString(36).substring(7);
     super({...options, r});
 
@@ -80,165 +81,158 @@ export default class DiscordTransport extends LoggerTransport {
       return this;
     }
 
+    this._rateLimit = options.rateLimit || DEFAULT_RATE_LIMIT;
+
     this._axios = axios.create({
       url: this.destination,
     });
 
-    const qFn: QueueableFunction<QFnPayload, void> = async (payload) => {
-      this.postToWebhook(payload);
-      return;
+    const qFn: QueueableFunction<QFnPayload, LoggerTransportResult> = async (payload) => {
+      return this.postToWebhook(payload);
     };
 
-    const fnQ = new FunctionQueue(qFn, {waitTimeBetweenRuns: 400, maxRetries: 0});
+    const fnQ = new FunctionQueue(qFn, {waitTimeBetweenRuns: this._rateLimit, maxRetries: 0});
     this._fnQ = fnQ;
-    this._processQ = debounce(async () => await fnQ.processQueue(), 400) as () => Promise<FunctionQueueResult<void>[]>;
   }
 
   async debug([prefixes, ...message]: unknown[]) {
-    this._fnQ?.queuePayload(
+    const fnQ = this._fnQ as FunctionQueue<QFnPayload, LoggerTransportResult>;
+
+    const payloadId = fnQ.queuePayload(
       {
         infoString: `**${prefixes} DEBUG** 🐞️:`,
         message: `${this.format(message)}`
       }
     );
 
-    try {
-      this._processQ?.();
-    } catch (error) {
-      console.log(`${prefixes} WARN 🟡: Logger Discord Transport -> Unable to process queue.`);
+    fnQ.processQueue();
+    const {result, error} = await fnQ.getResult(payloadId);
+
+    if (error) {
+      throw error;
     }
 
-    return {
-      destination: this.destination,
-      channelName: this.channelName,
-      result: true,
-    };
+    return result as LoggerTransportResult;
   }
 
   async info([prefixes, ...message]: unknown[]) {
-    this._fnQ?.queuePayload(
+    const fnQ = this._fnQ as FunctionQueue<QFnPayload, LoggerTransportResult>;
+
+    const payloadId = fnQ.queuePayload(
       {
         infoString: `**${prefixes} INFO** ✅️️:`,
         message: `${this.format(message)}`
       }
     );
 
-    try {
-      this._processQ?.();
-    } catch (error) {
-      console.log(`${prefixes} WARN 🟡: Logger Discord Transport -> Unable to process queue.`);
+    fnQ.processQueue();
+    const {result, error} = await fnQ.getResult(payloadId);
+
+    if (error) {
+      throw error;
     }
 
-    return {
-      destination: this.destination,
-      channelName: this.channelName,
-      result: true,
-    };
+    return result as LoggerTransportResult;
   }
 
   async warn([prefixes, ...message]: unknown[]) {
-    this._fnQ?.queuePayload(
+    const fnQ = this._fnQ as FunctionQueue<QFnPayload, LoggerTransportResult>;
+
+    const payloadId = fnQ.queuePayload(
       {
         infoString: `**${prefixes} WARN** 🟡:`,
         message: `${this.format(message)}`
       }
     );
 
-    try {
-      this._processQ?.();
-    } catch (error) {
-      console.log(`${prefixes} WARN 🟡: Logger Discord Transport -> Unable to process queue.`);
+    fnQ.processQueue();
+    const {result, error} = await fnQ.getResult(payloadId);
+
+    if (error) {
+      throw error;
     }
 
-    return {
-      destination: this.destination,
-      channelName: this.channelName,
-      result: true,
-    };
+    return result as LoggerTransportResult;
   }
 
   async error([prefixes, ...message]: unknown[]) {
-    this._fnQ?.queuePayload(
+    const fnQ = this._fnQ as FunctionQueue<QFnPayload, LoggerTransportResult>;
+
+    const payloadId = fnQ.queuePayload(
       {
         infoString: `**${prefixes} ERROR** 🚨️:`,
         message: `${this.format(message)}`
       }
     );
 
-    try {
-      this._processQ?.();
-    } catch (error) {
-      console.log(`${prefixes} WARN 🟡: Logger Discord Transport -> Unable to process queue.`);
+    fnQ.processQueue();
+    const {result, error} = await fnQ.getResult(payloadId);
+
+    if (error) {
+      throw error;
     }
 
-    return {
-      destination: this.destination,
-      channelName: this.channelName,
-      result: true,
-    };
+    return result as LoggerTransportResult;
   }
 
   async fatal([prefixes, ...message]: unknown[]) {
-    this._fnQ?.queuePayload(
+    const fnQ = this._fnQ as FunctionQueue<QFnPayload, LoggerTransportResult>;
+
+    const payloadId = fnQ.queuePayload(
       {
         infoString: `**${prefixes} FATAL** 💀:`,
         message: `${this.format(message)}`
       }
     );
 
-    try {
-      this._processQ?.();
-    } catch (error) {
-      console.log(`${prefixes} WARN 🟡: Logger Discord Transport -> Unable to process queue.`);
+    fnQ.processQueue();
+    const {result, error} = await fnQ.getResult(payloadId);
+
+    if (error) {
+      throw error;
     }
 
-    return {
-      destination: this.destination,
-      channelName: this.channelName,
-      result: true,
-    };
+    return result as LoggerTransportResult;
   }
 
   async all([prefixes, ...message]: unknown[]) {
-    this._fnQ?.queuePayload(
+    const fnQ = this._fnQ as FunctionQueue<QFnPayload, LoggerTransportResult>;
+
+    const payloadId = fnQ.queuePayload(
       {
         infoString: `**${prefixes} ALL** 📝:`,
         message: `${this.format(message)}`
       }
     );
 
-    try {
-      this._processQ?.();
-    } catch (error) {
-      console.log(`${prefixes} WARN 🟡: Logger Discord Transport -> Unable to process queue.`);
+    fnQ.processQueue();
+    const {result, error} = await fnQ.getResult(payloadId);
+
+    if (error) {
+      throw error;
     }
 
-    return {
-      destination: this.destination,
-      channelName: this.channelName,
-      result: true,
-    };
+    return result as LoggerTransportResult;
   }
 
   async raw([prefixes, ...message]: unknown[]) {
-    this._fnQ?.queuePayload(
+    const fnQ = this._fnQ as FunctionQueue<QFnPayload, LoggerTransportResult>;
+
+    const payloadId = fnQ.queuePayload(
       {
         infoString: '',
         message: this.format(message)
       }
     );
 
-    try {
-      this._processQ?.();
-    } catch (error) {
-      console.log(`${prefixes} WARN 🟡: Logger Discord Transport -> Unable to process queue.`);
+    fnQ.processQueue();
+    const {result, error} = await fnQ.getResult(payloadId);
+
+    if (error) {
+      throw error;
     }
 
-    return {
-      destination: this.destination,
-      channelName: this.channelName,
-      result: true,
-    };
+    return result as LoggerTransportResult;
   }
 
   private async postToWebhook({infoString, message}: QFnPayload): Promise<LoggerTransportResult> {
@@ -273,7 +267,7 @@ export default class DiscordTransport extends LoggerTransport {
       });
 
       if (response.status < 200 || response.status > 399) {
-        console.log(`${infoString} WARN 🟡: Logger Discord Transport -> Bad Response -> ${(response as any).reason}`);
+        throw new Error(`Bad Response: ${(response as any).reason}`);
       };
     }
 
@@ -290,6 +284,8 @@ export default class DiscordTransport extends LoggerTransport {
         }
       };
 
+      await sleep(this._rateLimit || DEFAULT_RATE_LIMIT);
+
       response = await (this._axios as AxiosInstance).post<undefined>(
         this.destination,
         data,
@@ -302,7 +298,7 @@ export default class DiscordTransport extends LoggerTransport {
       });
 
       if (response.status < 200 || response.status > 399) {
-        console.log(`${infoString} WARN 🟡: Logger Discord Transport -> Bad Response -> ${(response as any).reason}`);
+        throw new Error(`Bad Response: ${(response as any).reason}`);
       };
     }
 

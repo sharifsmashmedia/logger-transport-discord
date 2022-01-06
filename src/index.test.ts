@@ -7,46 +7,46 @@ import Logger, {
 
 import DiscordTransport from './';
 
-const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
-
 describe('Discord transport for Simply Hexagonal Logger', () => {
-  // it('can generate useful error output', async () => {
-  //   const logger = new Logger({
-  //     optionsByLevel: {
-  //       warn: [],
-  //       info: [],
-  //       debug: [],
-  //       error: [],
-  //       fatal: [],
-  //       all: [
-  //         {
-  //           transport: LoggerTransportName.DISCORD,
-  //           options: {
-  //             destination: (`${process.env.DISCORD_WEBHOOK}x` || ''),
-  //           },
-  //         },
-  //       ],
-  //       raw: [],
-  //     },
-  //     singleton: false,
-  //     transports: {
-  //       [`${LoggerTransportName.DISCORD}`]: DiscordTransport,
-  //     },
-  //     appIdentifiers: {
-  //       clusterType: 'TEST',
-  //       cluster: 'CI',
-  //       hostname: os.hostname(),
-  //       app: 'logger-transport-discord',
-  //     },
-  //     catchTransportErrors: true,
-  //   });
+  it('can generate useful error output', async () => {
+    const logger = new Logger({
+      optionsByLevel: {
+        warn: [],
+        info: [],
+        debug: [],
+        error: [],
+        fatal: [],
+        all: [
+          {
+            transport: LoggerTransportName.DISCORD,
+            options: {
+              destination: (`${process.env.DISCORD_WEBHOOK}x` || ''),
+            },
+          },
+        ],
+        raw: [],
+      },
+      singleton: false,
+      transports: {
+        [`${LoggerTransportName.DISCORD}`]: DiscordTransport,
+      },
+      appIdentifiers: {
+        clusterType: 'TEST',
+        cluster: 'CI',
+        hostname: os.hostname(),
+        app: 'logger-transport-discord',
+      },
+      catchTransportErrors: true,
+    });
 
-  //   const result = await logger.all('🛑 This should never reach Discord');
+    const result = await logger.all('🛑 This should never reach Discord');
 
-  //   expect(result.length).toBe(1);
-  //   expect((result[0] as LoggerTransportResult).destination).toBe('Logger:Fallback');
-  //   expect((result[0] as LoggerTransportResult).result).toBe(true);
-  // });
+    console.log(result);
+
+    expect(result.length).toBe(1);
+    expect((result[0] as LoggerTransportResult).destination).toBe('Logger:Fallback');
+    expect((result[0] as LoggerTransportResult).result).toBe(true);
+  });
 
   it('works', async () => {
     const logger = new Logger({
@@ -134,7 +134,7 @@ describe('Discord transport for Simply Hexagonal Logger', () => {
     expect((result[0] as LoggerTransportResult).result).toBe(true);
   });
 
-  it('works', async () => {
+  it('can log raw messages', async () => {
     const logger = new Logger({
       optionsByLevel: {
         warn: [],
@@ -149,7 +149,8 @@ describe('Discord transport for Simply Hexagonal Logger', () => {
             options: {
               destination: (process.env.DISCORD_WEBHOOK || ''),
             },
-          },],
+          },
+        ],
       },
       singleton: false,
       transports: {
@@ -169,9 +170,5 @@ describe('Discord transport for Simply Hexagonal Logger', () => {
     expect(result.length).toBe(1);
     expect((result[0] as LoggerTransportResult).destination).toBe(process.env.DISCORD_WEBHOOK);
     expect((result[0] as LoggerTransportResult).result).toBe(true);
-  });
-
-  afterAll(async () => {
-    await sleep(1000);
   });
 });
