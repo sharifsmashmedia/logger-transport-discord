@@ -50,12 +50,16 @@ var DiscordTransport = (() => {
     return __reExport(__markAsModule(__defProp(module != null ? __create(__getProtoOf(module)) : {}, "default", module && module.__esModule && "default" in module ? { get: () => module.default, enumerable: true } : { value: module, enumerable: true })), module);
   };
 
-  // node_modules/.pnpm/@simplyhexagonal+function-queue@1.1.0/node_modules/@simplyhexagonal/function-queue/dist/function-queue.js
+  // node_modules/.pnpm/@simplyhexagonal+function-queue@2.0.0/node_modules/@simplyhexagonal/function-queue/dist/function-queue.js
   var require_function_queue = __commonJS({
-    "node_modules/.pnpm/@simplyhexagonal+function-queue@1.1.0/node_modules/@simplyhexagonal/function-queue/dist/function-queue.js"(exports, module) {
+    "node_modules/.pnpm/@simplyhexagonal+function-queue@2.0.0/node_modules/@simplyhexagonal/function-queue/dist/function-queue.js"(exports, module) {
       var FunctionQueue2 = (() => {
+        var __create2 = Object.create;
         var __defProp2 = Object.defineProperty;
+        var __getOwnPropDesc2 = Object.getOwnPropertyDescriptor;
+        var __getOwnPropNames2 = Object.getOwnPropertyNames;
         var __getOwnPropSymbols2 = Object.getOwnPropertySymbols;
+        var __getProtoOf2 = Object.getPrototypeOf;
         var __hasOwnProp2 = Object.prototype.hasOwnProperty;
         var __propIsEnum2 = Object.prototype.propertyIsEnumerable;
         var __defNormalProp2 = (obj, key, value) => key in obj ? __defProp2(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
@@ -71,257 +75,357 @@ var DiscordTransport = (() => {
           return a;
         };
         var __markAsModule2 = (target) => __defProp2(target, "__esModule", { value: true });
+        var __commonJS2 = (cb, mod) => function __require2() {
+          return mod || (0, cb[Object.keys(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
+        };
         var __export2 = (target, all) => {
           __markAsModule2(target);
           for (var name in all)
             __defProp2(target, name, { get: all[name], enumerable: true });
         };
+        var __reExport2 = (target, module2, desc) => {
+          if (module2 && typeof module2 === "object" || typeof module2 === "function") {
+            for (let key of __getOwnPropNames2(module2))
+              if (!__hasOwnProp2.call(target, key) && key !== "default")
+                __defProp2(target, key, { get: () => module2[key], enumerable: !(desc = __getOwnPropDesc2(module2, key)) || desc.enumerable });
+          }
+          return target;
+        };
+        var __toModule2 = (module2) => {
+          return __reExport2(__markAsModule2(__defProp2(module2 != null ? __create2(__getProtoOf2(module2)) : {}, "default", module2 && module2.__esModule && "default" in module2 ? { get: () => module2.default, enumerable: true } : { value: module2, enumerable: true })), module2);
+        };
+        var require_short_unique_id = __commonJS2({
+          "node_modules/.pnpm/short-unique-id@4.4.4/node_modules/short-unique-id/dist/short-unique-id.js"(exports2, module2) {
+            var ShortUniqueId2 = (() => {
+              var __defProp22 = Object.defineProperty;
+              var __getOwnPropSymbols22 = Object.getOwnPropertySymbols;
+              var __hasOwnProp22 = Object.prototype.hasOwnProperty;
+              var __propIsEnum22 = Object.prototype.propertyIsEnumerable;
+              var __defNormalProp22 = (obj, key, value) => key in obj ? __defProp22(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+              var __spreadValues22 = (a, b) => {
+                for (var prop in b || (b = {}))
+                  if (__hasOwnProp22.call(b, prop))
+                    __defNormalProp22(a, prop, b[prop]);
+                if (__getOwnPropSymbols22)
+                  for (var prop of __getOwnPropSymbols22(b)) {
+                    if (__propIsEnum22.call(b, prop))
+                      __defNormalProp22(a, prop, b[prop]);
+                  }
+                return a;
+              };
+              var __markAsModule22 = (target) => __defProp22(target, "__esModule", { value: true });
+              var __export22 = (target, all) => {
+                __markAsModule22(target);
+                for (var name in all)
+                  __defProp22(target, name, { get: all[name], enumerable: true });
+              };
+              var src_exports22 = {};
+              __export22(src_exports22, {
+                DEFAULT_UUID_LENGTH: () => DEFAULT_UUID_LENGTH,
+                default: () => ShortUniqueId3
+              });
+              var version22 = "4.4.4";
+              var DEFAULT_UUID_LENGTH = 6;
+              var DEFAULT_OPTIONS = {
+                dictionary: "alphanum",
+                shuffle: true,
+                debug: false,
+                length: DEFAULT_UUID_LENGTH
+              };
+              var _ShortUniqueId = class extends Function {
+                constructor(argOptions = {}) {
+                  super();
+                  this.dictIndex = 0;
+                  this.dictRange = [];
+                  this.lowerBound = 0;
+                  this.upperBound = 0;
+                  this.dictLength = 0;
+                  this._digit_first_ascii = 48;
+                  this._digit_last_ascii = 58;
+                  this._alpha_lower_first_ascii = 97;
+                  this._alpha_lower_last_ascii = 123;
+                  this._hex_last_ascii = 103;
+                  this._alpha_upper_first_ascii = 65;
+                  this._alpha_upper_last_ascii = 91;
+                  this._number_dict_ranges = {
+                    digits: [this._digit_first_ascii, this._digit_last_ascii]
+                  };
+                  this._alpha_dict_ranges = {
+                    lowerCase: [this._alpha_lower_first_ascii, this._alpha_lower_last_ascii],
+                    upperCase: [this._alpha_upper_first_ascii, this._alpha_upper_last_ascii]
+                  };
+                  this._alpha_lower_dict_ranges = {
+                    lowerCase: [this._alpha_lower_first_ascii, this._alpha_lower_last_ascii]
+                  };
+                  this._alpha_upper_dict_ranges = {
+                    upperCase: [this._alpha_upper_first_ascii, this._alpha_upper_last_ascii]
+                  };
+                  this._alphanum_dict_ranges = {
+                    digits: [this._digit_first_ascii, this._digit_last_ascii],
+                    lowerCase: [this._alpha_lower_first_ascii, this._alpha_lower_last_ascii],
+                    upperCase: [this._alpha_upper_first_ascii, this._alpha_upper_last_ascii]
+                  };
+                  this._alphanum_lower_dict_ranges = {
+                    digits: [this._digit_first_ascii, this._digit_last_ascii],
+                    lowerCase: [this._alpha_lower_first_ascii, this._alpha_lower_last_ascii]
+                  };
+                  this._alphanum_upper_dict_ranges = {
+                    digits: [this._digit_first_ascii, this._digit_last_ascii],
+                    upperCase: [this._alpha_upper_first_ascii, this._alpha_upper_last_ascii]
+                  };
+                  this._hex_dict_ranges = {
+                    decDigits: [this._digit_first_ascii, this._digit_last_ascii],
+                    alphaDigits: [this._alpha_lower_first_ascii, this._hex_last_ascii]
+                  };
+                  this.log = (...args) => {
+                    const finalArgs = [...args];
+                    finalArgs[0] = `[short-unique-id] ${args[0]}`;
+                    if (this.debug === true) {
+                      if (typeof console !== "undefined" && console !== null) {
+                        return console.log(...finalArgs);
+                      }
+                    }
+                  };
+                  this.setDictionary = (dictionary2, shuffle2) => {
+                    let finalDict;
+                    if (dictionary2 && Array.isArray(dictionary2) && dictionary2.length > 1) {
+                      finalDict = dictionary2;
+                    } else {
+                      finalDict = [];
+                      let i;
+                      this.dictIndex = i = 0;
+                      const rangesName = `_${dictionary2}_dict_ranges`;
+                      const ranges = this[rangesName];
+                      Object.keys(ranges).forEach((rangeType) => {
+                        const rangeTypeKey = rangeType;
+                        this.dictRange = ranges[rangeTypeKey];
+                        this.lowerBound = this.dictRange[0];
+                        this.upperBound = this.dictRange[1];
+                        for (this.dictIndex = i = this.lowerBound; this.lowerBound <= this.upperBound ? i < this.upperBound : i > this.upperBound; this.dictIndex = this.lowerBound <= this.upperBound ? i += 1 : i -= 1) {
+                          finalDict.push(String.fromCharCode(this.dictIndex));
+                        }
+                      });
+                    }
+                    if (shuffle2) {
+                      const PROBABILITY = 0.5;
+                      finalDict = finalDict.sort(() => Math.random() - PROBABILITY);
+                    }
+                    this.dict = finalDict;
+                    this.dictLength = this.dict.length;
+                    this.counter = 0;
+                  };
+                  this.seq = () => {
+                    return this.sequentialUUID();
+                  };
+                  this.sequentialUUID = () => {
+                    let counterDiv;
+                    let counterRem;
+                    let id = "";
+                    counterDiv = this.counter;
+                    do {
+                      counterRem = counterDiv % this.dictLength;
+                      counterDiv = Math.trunc(counterDiv / this.dictLength);
+                      id += this.dict[counterRem];
+                    } while (counterDiv !== 0);
+                    this.counter += 1;
+                    return id;
+                  };
+                  this.randomUUID = (uuidLength = this.uuidLength || DEFAULT_UUID_LENGTH) => {
+                    let id;
+                    let randomPartIdx;
+                    let j;
+                    if (uuidLength === null || typeof uuidLength === "undefined" || uuidLength < 1) {
+                      throw new Error("Invalid UUID Length Provided");
+                    }
+                    const isPositive = uuidLength >= 0;
+                    id = "";
+                    for (j = 0; j < uuidLength; j += 1) {
+                      randomPartIdx = parseInt((Math.random() * this.dictLength).toFixed(0), 10) % this.dictLength;
+                      id += this.dict[randomPartIdx];
+                    }
+                    return id;
+                  };
+                  this.availableUUIDs = (uuidLength = this.uuidLength) => {
+                    return parseFloat(Math.pow([...new Set(this.dict)].length, uuidLength).toFixed(0));
+                  };
+                  this.approxMaxBeforeCollision = (rounds = this.availableUUIDs(this.uuidLength)) => {
+                    return parseFloat(Math.sqrt(Math.PI / 2 * rounds).toFixed(20));
+                  };
+                  this.collisionProbability = (rounds = this.availableUUIDs(this.uuidLength), uuidLength = this.uuidLength) => {
+                    return parseFloat((this.approxMaxBeforeCollision(rounds) / this.availableUUIDs(uuidLength)).toFixed(20));
+                  };
+                  this.uniqueness = (rounds = this.availableUUIDs(this.uuidLength)) => {
+                    const score = parseFloat((1 - this.approxMaxBeforeCollision(rounds) / rounds).toFixed(20));
+                    return score > 1 ? 1 : score < 0 ? 0 : score;
+                  };
+                  this.getVersion = () => {
+                    return this.version;
+                  };
+                  this.stamp = (finalLength) => {
+                    if (typeof finalLength !== "number" || finalLength < 10) {
+                      throw new Error("Param finalLength must be number greater than 10");
+                    }
+                    const hexStamp = Math.floor(+new Date() / 1e3).toString(16);
+                    const idLength = finalLength - 9;
+                    const rndIdx = Math.round(Math.random() * (idLength > 15 ? 15 : idLength));
+                    const id = this.randomUUID(idLength);
+                    return `${id.substr(0, rndIdx)}${hexStamp}${id.substr(rndIdx)}${rndIdx.toString(16)}`;
+                  };
+                  this.parseStamp = (stamp) => {
+                    if (stamp.length < 10) {
+                      throw new Error("Stamp length invalid");
+                    }
+                    const rndIdx = parseInt(stamp.substr(stamp.length - 1, 1), 16);
+                    return new Date(parseInt(stamp.substr(rndIdx, 8), 16) * 1e3);
+                  };
+                  const options = __spreadValues22(__spreadValues22({}, DEFAULT_OPTIONS), argOptions);
+                  this.counter = 0;
+                  this.debug = false;
+                  this.dict = [];
+                  this.version = version22;
+                  const {
+                    dictionary,
+                    shuffle,
+                    length
+                  } = options;
+                  this.uuidLength = length;
+                  this.setDictionary(dictionary, shuffle);
+                  this.debug = options.debug;
+                  this.log(this.dict);
+                  this.log(`Generator instantiated with Dictionary Size ${this.dictLength}`);
+                  return new Proxy(this, {
+                    apply: (target, that, args) => this.randomUUID(...args)
+                  });
+                }
+              };
+              var ShortUniqueId3 = _ShortUniqueId;
+              ShortUniqueId3.default = _ShortUniqueId;
+              return src_exports22;
+            })();
+            typeof module2 != "undefined" && (module2.exports = ShortUniqueId2.default), typeof window != "undefined" && (ShortUniqueId2 = ShortUniqueId2.default);
+          }
+        });
         var src_exports2 = {};
         __export2(src_exports2, {
-          FunctionQueue: () => FunctionQueue3,
-          FunctionSyncQueue: () => FunctionSyncQueue
+          default: () => src_default
         });
-        var version3 = "1.1.0";
+        var import_short_unique_id = __toModule2(require_short_unique_id());
+        var version3 = "2.0.0";
+        var uid = new import_short_unique_id.default({ length: 8 });
         var defaultOptions = {
           waitTimeBetweenRuns: 100,
-          maxRetries: 1
+          getResultTimeout: 6e4,
+          maxRetries: 1,
+          cleanupResultsOlderThan: 6e4
         };
-        var sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
-        var syncSleep = (ms) => {
-          const end = Date.now() + ms;
-          while (Date.now() < end)
-            continue;
-        };
+        var sleep2 = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
         var FunctionQueue3 = class {
           constructor(fn, options) {
             this._queue = [];
-            this._tryFn = async (payload, retries = 0) => {
-              try {
-                await sleep(this._options.waitTimeBetweenRuns);
-                const result = await this._fn(payload);
-                return result;
-              } catch (error) {
-                if (retries < this._options.maxRetries) {
-                  return await this._tryFn(payload, retries + 1);
+            this._processing = false;
+            this.results = [];
+            this.processQueuePromise = Promise.resolve([]);
+            this._tryFn = async (id, payload, startTimestamp) => {
+              let retries = 0;
+              let finalResult;
+              while ((!finalResult || finalResult.error) && retries <= this._options.maxRetries) {
+                retries++;
+                try {
+                  await sleep2(this._options.waitTimeBetweenRuns);
+                  const fnResult = await this._fn(payload);
+                  const endTimestamp = Date.now();
+                  const duration = endTimestamp - startTimestamp;
+                  finalResult = {
+                    id,
+                    duration,
+                    startTimestamp,
+                    endTimestamp,
+                    result: fnResult
+                  };
+                } catch (error) {
+                  const endTimestamp = Date.now();
+                  const duration = endTimestamp - startTimestamp;
+                  finalResult = {
+                    id,
+                    duration,
+                    startTimestamp,
+                    endTimestamp,
+                    error
+                  };
                 }
-                throw error;
               }
+              return finalResult;
             };
             this._fn = fn;
             this._options = __spreadValues2(__spreadValues2({}, defaultOptions), options || {});
           }
           queuePayload(payload) {
-            this._queue.push(payload);
+            const id = uid();
+            this._queue.push({ payload, id });
+            return id;
           }
-          async processQueue() {
-            const results = [];
-            let startTime;
-            let endTime;
-            let payload;
-            while (payload = this._queue.shift()) {
-              startTime = Date.now();
+          async _processQueue() {
+            this._processing = true;
+            let entry;
+            const startTimestamp = Date.now();
+            while (entry = this._queue.shift()) {
+              const { payload, id } = entry;
               try {
-                const result = await this._tryFn(payload);
-                endTime = Date.now();
-                results.push({
-                  duration: endTime - startTime,
-                  result
-                });
+                const result = await this._tryFn(id, payload, startTimestamp);
+                this.results.push(__spreadValues2({}, result));
               } catch (error) {
-                endTime = Date.now();
-                results.push({
-                  duration: endTime - startTime,
+                const endTimestamp = Date.now();
+                this.results.push({
+                  id,
+                  startTimestamp,
+                  duration: endTimestamp - startTimestamp,
+                  endTimestamp,
                   error
                 });
               }
             }
-            return results;
+            this._processing = false;
+          }
+          cleanupResults() {
+            this.results = this.results.filter((r) => {
+              const age = Date.now() - r.endTimestamp;
+              return age < this._options.cleanupResultsOlderThan;
+            });
+          }
+          async processQueue() {
+            if (this._processing) {
+              return;
+            }
+            this.cleanupResults();
+            this.processQueuePromise = this._processQueue().then(() => this.results);
+          }
+          async getResult(id) {
+            this.cleanupResults();
+            let result = this.results.find((r) => r.id === id);
+            const startTimestamp = Date.now();
+            while (!result && Date.now() - startTimestamp < this._options.getResultTimeout) {
+              await sleep2(this._options.waitTimeBetweenRuns);
+              result = this.results.find((r) => r.id === id);
+            }
+            if (!result) {
+              const endTimestamp = Date.now();
+              return {
+                id,
+                startTimestamp,
+                duration: endTimestamp - startTimestamp,
+                endTimestamp,
+                error: new Error(`Result for id ${id} not found (timeout of ${this._options.getResultTimeout}ms exceeded)`)
+              };
+            }
+            this.results = this.results.filter((r) => r.id !== id);
+            return result;
           }
         };
         FunctionQueue3.version = version3;
-        var FunctionSyncQueue = class {
-          constructor(fn, options) {
-            this._queue = [];
-            this._tryFn = (payload, retries = 0) => {
-              try {
-                syncSleep(this._options.waitTimeBetweenRuns);
-                const result = this._fn(payload);
-                return result;
-              } catch (error) {
-                if (retries < this._options.maxRetries) {
-                  return this._tryFn(payload, retries + 1);
-                }
-                return error;
-              }
-            };
-            this._fn = fn;
-            this._options = __spreadValues2(__spreadValues2({}, defaultOptions), options || {});
-          }
-          queuePayload(payload) {
-            this._queue.push(payload);
-          }
-          processQueue() {
-            const results = [];
-            let startTime;
-            let endTime;
-            let payload;
-            while (payload = this._queue.shift()) {
-              startTime = Date.now();
-              try {
-                const result = this._tryFn(payload);
-                endTime = Date.now();
-                results.push({
-                  duration: endTime - startTime,
-                  result
-                });
-              } catch (error) {
-                endTime = Date.now();
-                results.push({
-                  duration: endTime - startTime,
-                  error
-                });
-              }
-            }
-            return results;
-          }
-        };
-        FunctionSyncQueue.version = version3;
+        var src_default = FunctionQueue3;
         return src_exports2;
       })();
-      typeof module != "undefined" && (module.exports = FunctionQueue2), typeof window != "undefined" && (FunctionQueue2 = FunctionQueue2);
-    }
-  });
-
-  // node_modules/.pnpm/lodash.debounce@4.0.8/node_modules/lodash.debounce/index.js
-  var require_lodash = __commonJS({
-    "node_modules/.pnpm/lodash.debounce@4.0.8/node_modules/lodash.debounce/index.js"(exports, module) {
-      var FUNC_ERROR_TEXT = "Expected a function";
-      var NAN = 0 / 0;
-      var symbolTag = "[object Symbol]";
-      var reTrim = /^\s+|\s+$/g;
-      var reIsBadHex = /^[-+]0x[0-9a-f]+$/i;
-      var reIsBinary = /^0b[01]+$/i;
-      var reIsOctal = /^0o[0-7]+$/i;
-      var freeParseInt = parseInt;
-      var freeGlobal = typeof global == "object" && global && global.Object === Object && global;
-      var freeSelf = typeof self == "object" && self && self.Object === Object && self;
-      var root = freeGlobal || freeSelf || Function("return this")();
-      var objectProto = Object.prototype;
-      var objectToString = objectProto.toString;
-      var nativeMax = Math.max;
-      var nativeMin = Math.min;
-      var now = function() {
-        return root.Date.now();
-      };
-      function debounce2(func, wait, options) {
-        var lastArgs, lastThis, maxWait, result, timerId, lastCallTime, lastInvokeTime = 0, leading = false, maxing = false, trailing = true;
-        if (typeof func != "function") {
-          throw new TypeError(FUNC_ERROR_TEXT);
-        }
-        wait = toNumber(wait) || 0;
-        if (isObject(options)) {
-          leading = !!options.leading;
-          maxing = "maxWait" in options;
-          maxWait = maxing ? nativeMax(toNumber(options.maxWait) || 0, wait) : maxWait;
-          trailing = "trailing" in options ? !!options.trailing : trailing;
-        }
-        function invokeFunc(time) {
-          var args = lastArgs, thisArg = lastThis;
-          lastArgs = lastThis = void 0;
-          lastInvokeTime = time;
-          result = func.apply(thisArg, args);
-          return result;
-        }
-        function leadingEdge(time) {
-          lastInvokeTime = time;
-          timerId = setTimeout(timerExpired, wait);
-          return leading ? invokeFunc(time) : result;
-        }
-        function remainingWait(time) {
-          var timeSinceLastCall = time - lastCallTime, timeSinceLastInvoke = time - lastInvokeTime, result2 = wait - timeSinceLastCall;
-          return maxing ? nativeMin(result2, maxWait - timeSinceLastInvoke) : result2;
-        }
-        function shouldInvoke(time) {
-          var timeSinceLastCall = time - lastCallTime, timeSinceLastInvoke = time - lastInvokeTime;
-          return lastCallTime === void 0 || timeSinceLastCall >= wait || timeSinceLastCall < 0 || maxing && timeSinceLastInvoke >= maxWait;
-        }
-        function timerExpired() {
-          var time = now();
-          if (shouldInvoke(time)) {
-            return trailingEdge(time);
-          }
-          timerId = setTimeout(timerExpired, remainingWait(time));
-        }
-        function trailingEdge(time) {
-          timerId = void 0;
-          if (trailing && lastArgs) {
-            return invokeFunc(time);
-          }
-          lastArgs = lastThis = void 0;
-          return result;
-        }
-        function cancel() {
-          if (timerId !== void 0) {
-            clearTimeout(timerId);
-          }
-          lastInvokeTime = 0;
-          lastArgs = lastCallTime = lastThis = timerId = void 0;
-        }
-        function flush() {
-          return timerId === void 0 ? result : trailingEdge(now());
-        }
-        function debounced() {
-          var time = now(), isInvoking = shouldInvoke(time);
-          lastArgs = arguments;
-          lastThis = this;
-          lastCallTime = time;
-          if (isInvoking) {
-            if (timerId === void 0) {
-              return leadingEdge(lastCallTime);
-            }
-            if (maxing) {
-              timerId = setTimeout(timerExpired, wait);
-              return invokeFunc(lastCallTime);
-            }
-          }
-          if (timerId === void 0) {
-            timerId = setTimeout(timerExpired, wait);
-          }
-          return result;
-        }
-        debounced.cancel = cancel;
-        debounced.flush = flush;
-        return debounced;
-      }
-      function isObject(value) {
-        var type = typeof value;
-        return !!value && (type == "object" || type == "function");
-      }
-      function isObjectLike(value) {
-        return !!value && typeof value == "object";
-      }
-      function isSymbol(value) {
-        return typeof value == "symbol" || isObjectLike(value) && objectToString.call(value) == symbolTag;
-      }
-      function toNumber(value) {
-        if (typeof value == "number") {
-          return value;
-        }
-        if (isSymbol(value)) {
-          return NAN;
-        }
-        if (isObject(value)) {
-          var other = typeof value.valueOf == "function" ? value.valueOf() : value;
-          value = isObject(other) ? other + "" : other;
-        }
-        if (typeof value != "string") {
-          return value === 0 ? value : +value;
-        }
-        value = value.replace(reTrim, "");
-        var isBinary = reIsBinary.test(value);
-        return isBinary || reIsOctal.test(value) ? freeParseInt(value.slice(2), isBinary ? 2 : 8) : reIsBadHex.test(value) ? NAN : +value;
-      }
-      module.exports = debounce2;
+      typeof module != "undefined" && (module.exports = FunctionQueue2.default), typeof window != "undefined" && (FunctionQueue2 = FunctionQueue2.default);
     }
   });
 
@@ -751,15 +855,15 @@ var DiscordTransport = (() => {
           var radixUint = radixCache[radix] || new UINT64(radix);
           if (!this.gt(radixUint))
             return this.toNumber().toString(radix);
-          var self2 = this.clone();
+          var self = this.clone();
           var res = new Array(64);
           for (var i = 63; i >= 0; i--) {
-            self2.div(radixUint);
-            res[i] = self2.remainder.toNumber().toString(radix);
-            if (!self2.gt(radixUint))
+            self.div(radixUint);
+            res[i] = self.remainder.toNumber().toString(radix);
+            if (!self.gt(radixUint))
               break;
           }
-          res[i - 1] = self2.toNumber().toString(radix);
+          res[i - 1] = self.toNumber().toString(radix);
           return res.join("");
         };
         UINT64.prototype.add = function(other) {
@@ -2012,7 +2116,6 @@ var DiscordTransport = (() => {
     version: () => version2
   });
   var import_function_queue = __toModule(require_function_queue());
-  var import_lodash = __toModule(require_lodash());
 
   // node_modules/.pnpm/@simplyhexagonal+logger@1.3.0/node_modules/@simplyhexagonal/logger/package.json
   var version = "1.3.0";
@@ -2536,7 +2639,7 @@ var DiscordTransport = (() => {
   Logger.LoggerTransport = LoggerTransport;
 
   // package.json
-  var version2 = "2.0.1";
+  var version2 = "3.0.0";
 
   // src/index.ts
   var axios;
@@ -2545,6 +2648,7 @@ var DiscordTransport = (() => {
   } else {
     axios = __require("axios");
   }
+  var sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
   var Multipart = class {
     constructor(...data) {
       this.boundary = "loggerTransportDiscord";
@@ -2570,6 +2674,7 @@ ${data}
 `;
     }
   };
+  var DEFAULT_RATE_LIMIT = 400;
   var DiscordTransport = class extends LoggerTransport {
     constructor(options) {
       const r = Math.random().toString(36).substring(7);
@@ -2578,135 +2683,106 @@ ${data}
       if (r !== this._r) {
         return this;
       }
+      this._rateLimit = options.rateLimit || DEFAULT_RATE_LIMIT;
       this._axios = axios.create({
         url: this.destination
       });
       const qFn = async (payload) => {
-        this.postToWebhook(payload);
-        return;
+        return this.postToWebhook(payload);
       };
-      const fnQ = new import_function_queue.FunctionQueue(qFn, { waitTimeBetweenRuns: 400, maxRetries: 0 });
+      const fnQ = new import_function_queue.default(qFn, { waitTimeBetweenRuns: this._rateLimit, maxRetries: 0 });
       this._fnQ = fnQ;
-      this._processQ = (0, import_lodash.default)(async () => await fnQ.processQueue(), 400);
     }
     async debug([prefixes, ...message]) {
-      var _a, _b;
-      (_a = this._fnQ) == null ? void 0 : _a.queuePayload({
+      const fnQ = this._fnQ;
+      const payloadId = fnQ.queuePayload({
         infoString: `**${prefixes} DEBUG** \u{1F41E}\uFE0F:`,
         message: `${this.format(message)}`
       });
-      try {
-        (_b = this._processQ) == null ? void 0 : _b.call(this);
-      } catch (error) {
-        console.log(`${prefixes} WARN \u{1F7E1}: Logger Discord Transport -> Unable to process queue.`);
+      fnQ.processQueue();
+      const { result, error } = await fnQ.getResult(payloadId);
+      if (error) {
+        throw error;
       }
-      return {
-        destination: this.destination,
-        channelName: this.channelName,
-        result: true
-      };
+      return result;
     }
     async info([prefixes, ...message]) {
-      var _a, _b;
-      (_a = this._fnQ) == null ? void 0 : _a.queuePayload({
+      const fnQ = this._fnQ;
+      const payloadId = fnQ.queuePayload({
         infoString: `**${prefixes} INFO** \u2705\uFE0F\uFE0F:`,
         message: `${this.format(message)}`
       });
-      try {
-        (_b = this._processQ) == null ? void 0 : _b.call(this);
-      } catch (error) {
-        console.log(`${prefixes} WARN \u{1F7E1}: Logger Discord Transport -> Unable to process queue.`);
+      fnQ.processQueue();
+      const { result, error } = await fnQ.getResult(payloadId);
+      if (error) {
+        throw error;
       }
-      return {
-        destination: this.destination,
-        channelName: this.channelName,
-        result: true
-      };
+      return result;
     }
     async warn([prefixes, ...message]) {
-      var _a, _b;
-      (_a = this._fnQ) == null ? void 0 : _a.queuePayload({
+      const fnQ = this._fnQ;
+      const payloadId = fnQ.queuePayload({
         infoString: `**${prefixes} WARN** \u{1F7E1}:`,
         message: `${this.format(message)}`
       });
-      try {
-        (_b = this._processQ) == null ? void 0 : _b.call(this);
-      } catch (error) {
-        console.log(`${prefixes} WARN \u{1F7E1}: Logger Discord Transport -> Unable to process queue.`);
+      fnQ.processQueue();
+      const { result, error } = await fnQ.getResult(payloadId);
+      if (error) {
+        throw error;
       }
-      return {
-        destination: this.destination,
-        channelName: this.channelName,
-        result: true
-      };
+      return result;
     }
     async error([prefixes, ...message]) {
-      var _a, _b;
-      (_a = this._fnQ) == null ? void 0 : _a.queuePayload({
+      const fnQ = this._fnQ;
+      const payloadId = fnQ.queuePayload({
         infoString: `**${prefixes} ERROR** \u{1F6A8}\uFE0F:`,
         message: `${this.format(message)}`
       });
-      try {
-        (_b = this._processQ) == null ? void 0 : _b.call(this);
-      } catch (error) {
-        console.log(`${prefixes} WARN \u{1F7E1}: Logger Discord Transport -> Unable to process queue.`);
+      fnQ.processQueue();
+      const { result, error } = await fnQ.getResult(payloadId);
+      if (error) {
+        throw error;
       }
-      return {
-        destination: this.destination,
-        channelName: this.channelName,
-        result: true
-      };
+      return result;
     }
     async fatal([prefixes, ...message]) {
-      var _a, _b;
-      (_a = this._fnQ) == null ? void 0 : _a.queuePayload({
+      const fnQ = this._fnQ;
+      const payloadId = fnQ.queuePayload({
         infoString: `**${prefixes} FATAL** \u{1F480}:`,
         message: `${this.format(message)}`
       });
-      try {
-        (_b = this._processQ) == null ? void 0 : _b.call(this);
-      } catch (error) {
-        console.log(`${prefixes} WARN \u{1F7E1}: Logger Discord Transport -> Unable to process queue.`);
+      fnQ.processQueue();
+      const { result, error } = await fnQ.getResult(payloadId);
+      if (error) {
+        throw error;
       }
-      return {
-        destination: this.destination,
-        channelName: this.channelName,
-        result: true
-      };
+      return result;
     }
     async all([prefixes, ...message]) {
-      var _a, _b;
-      (_a = this._fnQ) == null ? void 0 : _a.queuePayload({
+      const fnQ = this._fnQ;
+      const payloadId = fnQ.queuePayload({
         infoString: `**${prefixes} ALL** \u{1F4DD}:`,
         message: `${this.format(message)}`
       });
-      try {
-        (_b = this._processQ) == null ? void 0 : _b.call(this);
-      } catch (error) {
-        console.log(`${prefixes} WARN \u{1F7E1}: Logger Discord Transport -> Unable to process queue.`);
+      fnQ.processQueue();
+      const { result, error } = await fnQ.getResult(payloadId);
+      if (error) {
+        throw error;
       }
-      return {
-        destination: this.destination,
-        channelName: this.channelName,
-        result: true
-      };
+      return result;
     }
     async raw([prefixes, ...message]) {
-      var _a, _b;
-      (_a = this._fnQ) == null ? void 0 : _a.queuePayload({
+      const fnQ = this._fnQ;
+      const payloadId = fnQ.queuePayload({
         infoString: "",
         message: this.format(message)
       });
-      try {
-        (_b = this._processQ) == null ? void 0 : _b.call(this);
-      } catch (error) {
-        console.log(`${prefixes} WARN \u{1F7E1}: Logger Discord Transport -> Unable to process queue.`);
+      fnQ.processQueue();
+      const { result, error } = await fnQ.getResult(payloadId);
+      if (error) {
+        throw error;
       }
-      return {
-        destination: this.destination,
-        channelName: this.channelName,
-        result: true
-      };
+      return result;
     }
     async postToWebhook({ infoString, message }) {
       const attachMessage = Boolean(infoString.length + message.length >= 2e3);
@@ -2731,7 +2807,7 @@ ${data}
           };
         });
         if (response.status < 200 || response.status > 399) {
-          console.log(`${infoString} WARN \u{1F7E1}: Logger Discord Transport -> Bad Response -> ${response.reason}`);
+          throw new Error(`Bad Response: ${response.reason}`);
         }
         ;
       }
@@ -2743,6 +2819,7 @@ ${data}
             "Content-Type": `multipart/form-data; boundary=${multi.boundary}`
           }
         };
+        await sleep(this._rateLimit || DEFAULT_RATE_LIMIT);
         response = await this._axios.post(this.destination, data, config).catch((reason) => {
           return {
             status: 400,
@@ -2750,7 +2827,7 @@ ${data}
           };
         });
         if (response.status < 200 || response.status > 399) {
-          console.log(`${infoString} WARN \u{1F7E1}: Logger Discord Transport -> Bad Response -> ${response.reason}`);
+          throw new Error(`Bad Response: ${response.reason}`);
         }
         ;
       }
