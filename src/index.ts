@@ -61,7 +61,7 @@ interface QFnPayload {
   message: string;
 }
 
-const DEFAULT_RATE_LIMIT = 400;
+const DEFAULT_RATE_LIMIT = 420;
 
 export default class DiscordTransport extends LoggerTransport {
   static version = version;

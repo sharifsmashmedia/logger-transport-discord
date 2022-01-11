@@ -2,7 +2,7 @@ lockfileVersion: 5.3
 
 specifiers:
   '@simplyhexagonal/function-queue': ^2.0.0
-  '@simplyhexagonal/logger': ^1.3.0
+  '@simplyhexagonal/logger': ^2.0.0
   '@types/jest': ^27.0.2
   '@types/node': ^16.11.0
   auto-changelog: ^2.3.0
@@ -25,7 +25,7 @@ dependencies:
 
 devDependencies:
   '@simplyhexagonal/function-queue': 2.0.0
-  '@simplyhexagonal/logger': 1.3.0
+  '@simplyhexagonal/logger': 2.0.0
   '@types/jest': 27.0.2
   '@types/node': 16.11.0
   auto-changelog: 2.3.0
@@ -732,8 +732,8 @@ packages:
     resolution: {integrity: sha512-Uod+fv9wtp5G09U6IJSNdnFirBBGsoFN2QarxpmSirf0uUVi4K11mir3fIg38oRQYCxWAw1eu+2qTBfAUPlBbQ==}
     dev: true
 
-  /@simplyhexagonal/logger/1.3.0:
-    resolution: {integrity: sha512-g37OSTLV2qqrI2l/Qv9QTXnPDTtHp7XKhzJv1qWoQ+woGhRDU1x3K3zQzEfOoZVzV2IcgSMumiTh3HYAmXreGg==}
+  /@simplyhexagonal/logger/2.0.0:
+    resolution: {integrity: sha512-vnigVjnjS8Hmg7J3HH05+A4blZQcvnvAJHRTwmKrt0995u7WIsoxCDPW6sF625tVdm+zZYrsXbAWTLLTWbecRQ==}
     dependencies:
       '@types/xxhashjs': 0.2.2
       ansicolor: 1.1.95

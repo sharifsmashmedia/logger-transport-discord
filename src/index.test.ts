@@ -117,6 +117,8 @@ describe('Discord transport for Simply Hexagonal Logger', () => {
       catchTransportErrors: true,
     });
 
+    logger.time('long-message');
+
     const result = await logger.warn({
       "killed": false,
       "code": 1,
@@ -128,6 +130,12 @@ describe('Discord transport for Simply Hexagonal Logger', () => {
       "message": "Command failed: pnpm test\nts-jest[versions] (WARN) Version 27.2.5 of jest installed has not been tested with ts-jest. If you're experiencing issues, consider using a supported version (>=26.0.0 <27.0.0-0). Please do not report issues in ts-jest if you are using unsupported versions.\nts-jest[config] (WARN) The option \`tsConfig\` is deprecated and will be removed in ts-jest 27, use \`tsconfig\` instead\nSegmentation fault\n",
       "stack": "Error: Command failed: pnpm test\nts-jest[versions] (WARN) Version 27.2.5 of jest installed has not been tested with ts-jest. If you're experiencing issues, consider using a supported version (>=26.0.0 <27.0.0-0). Please do not report issues in ts-jest if you are using unsupported versions.\nts-jest[config] (WARN) The option \`tsConfig\` is deprecated and will be removed in ts-jest 27, use \`tsconfig\` instead\nSegmentation fault\n\n    at ChildProcess.exithandler (child_process.js:319:12)\n    at ChildProcess.emit (events.js:376:20)\n    at maybeClose (internal/child_process.js:1055:16)\n    at Process.ChildProcess._handle.onexit (internal/child_process.js:288:5)"
     });
+
+    const timeElapsed = await logger.timeEnd('long-message');
+
+    // This is expected due to having to split the message in two calls
+    // and thus waiting twice for the rate limit
+    expect(timeElapsed).toBeGreaterThan(800);
 
     expect(result.length).toBe(1);
     expect((result[0] as LoggerTransportResult).destination).toBe(process.env.DISCORD_WEBHOOK);
