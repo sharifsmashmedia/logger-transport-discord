@@ -95,7 +95,7 @@ jobs:
         run: pnpm test
   tests4:
     name: Test on Node ${{ matrix.node }} and ${{ matrix.os }}
-    needs: tests4
+    needs: tests3
 
     runs-on: ${{ matrix.os }}
     strategy:
