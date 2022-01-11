@@ -1,6 +1,6 @@
 {
   "name": "@simplyhexagonal/logger-transport-discord",
-  "version": "3.0.0",
+  "version": "3.1.0",
   "license": "Apache-2.0",
   "description": "This is a transport which allows @simplyhexagonal/logger to use Discord as a communication channel",
   "contributors": [
