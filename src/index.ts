@@ -6,7 +6,7 @@ import {
   LoggerTransportOptions,
   LoggerTransportResult,
   LoggerTransport,
-} from '@simplyhexagonal/logger/src';
+} from '@simplyhexagonal/logger';
 
 // @ts-ignore
 import {version} from '../package.json';
