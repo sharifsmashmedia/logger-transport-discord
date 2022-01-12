@@ -437,10 +437,10 @@ var DiscordTransport = (() => {
     version: () => version
   });
   var import_function_queue = __toModule(require_function_queue());
-  var import_src = __toModule(__require("@simplyhexagonal/logger/src"));
+  var import_logger = __toModule(__require("@simplyhexagonal/logger"));
 
   // package.json
-  var version = "3.1.0";
+  var version = "3.1.1";
 
   // src/index.ts
   var axios;
@@ -476,7 +476,7 @@ ${data}
     }
   };
   var DEFAULT_RATE_LIMIT = 420;
-  var DiscordTransport = class extends import_src.LoggerTransport {
+  var DiscordTransport = class extends import_logger.LoggerTransport {
     constructor(options) {
       const r = Math.random().toString(36).substring(7);
       super(__spreadProps(__spreadValues({}, options), { r }));

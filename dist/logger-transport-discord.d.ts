@@ -1,4 +1,4 @@
-import { LoggerTransportOptions, LoggerTransportResult, LoggerTransport } from '@simplyhexagonal/logger/src';
+import { LoggerTransportOptions, LoggerTransportResult, LoggerTransport } from '@simplyhexagonal/logger';
 export { version } from '../package.json';
 export declare class Multipart {
     boundary: string;
