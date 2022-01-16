@@ -440,7 +440,7 @@ var DiscordTransport = (() => {
   var import_logger = __toModule(__require("@simplyhexagonal/logger"));
 
   // package.json
-  var version = "3.1.1";
+  var version = "3.1.2";
 
   // src/index.ts
   var axios;
@@ -590,7 +590,9 @@ ${data}
       let content = "";
       if (infoString.length > 0) {
         content = attachMessage ? infoString : `${infoString}
-\`\`\`${message}\`\`\``;
+\`\`\`
+${message}
+\`\`\``;
       } else if (!attachMessage) {
         content = message;
       }
