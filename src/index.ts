@@ -241,7 +241,7 @@ export default class DiscordTransport extends LoggerTransport {
     let content = '';
     
     if (infoString.length > 0) {
-      content = (attachMessage) ? infoString : `${infoString}\n\`\`\`${message}\`\`\``;
+      content = (attachMessage) ? infoString : `${infoString}\n\`\`\`\n${message}\n\`\`\``;
     } else if (!attachMessage) {
       content = message;
     }
