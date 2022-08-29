@@ -267,7 +267,7 @@ export default class DiscordTransport extends LoggerTransport {
       });
 
       if (response.status < 200 || response.status > 399) {
-        throw new Error(`Bad Response: ${(response as any).reason}`);
+        console.error(`Bad Response: ${(response as any).reason}`);
       };
     }
 
@@ -298,7 +298,7 @@ export default class DiscordTransport extends LoggerTransport {
       });
 
       if (response.status < 200 || response.status > 399) {
-        throw new Error(`Bad Response: ${(response as any).reason}`);
+        console.error(`Bad Response: ${(response as any).reason}`);
       };
     }
 
