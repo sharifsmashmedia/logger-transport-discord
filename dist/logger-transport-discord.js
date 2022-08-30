@@ -610,7 +610,7 @@ ${message}
           };
         });
         if (response.status < 200 || response.status > 399) {
-          throw new Error(`Bad Response: ${response.reason}`);
+          console.error(`Bad Response: ${response.reason}`);
         }
         ;
       }
@@ -630,7 +630,7 @@ ${message}
           };
         });
         if (response.status < 200 || response.status > 399) {
-          throw new Error(`Bad Response: ${response.reason}`);
+          console.error(`Bad Response: ${response.reason}`);
         }
         ;
       }
